@@ -1,6 +1,6 @@
 
 import {mergeMap, map, filter} from 'rxjs/operators';
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {Component, Host, HostBinding, OnInit, Renderer2} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 
@@ -14,6 +14,13 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 export class AppComponent implements OnInit {
 
   title = 'app';
+
+  //#region Properties
+
+  @HostBinding('class')
+  public hostClass: string = 'page-top';
+
+  //#endregion
 
   //#region Constructor
 

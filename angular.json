@@ -3,38 +3,39 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "administration": {
-      "root": "",
-      "sourceRoot": "src",
+    "ng-main": {
+      "root": "projects/ng-main/",
+      "sourceRoot": "projects/ng-main/src",
       "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "outputPath": "dist/ng-main",
+            "index": "projects/ng-main/src/index.html",
+            "main": "projects/ng-main/src/main.ts",
+            "polyfills": "projects/ng-main/src/polyfills.ts",
+            "tsConfig": "projects/ng-main/tsconfig.app.json",
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "projects/ng-main/src/favicon.ico",
+              "projects/ng-main/src/assets",
+              "projects/ng-main/src/netlify.toml"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/admin-lte/dist/css/AdminLTE.min.css",
-              "node_modules/admin-lte/dist/css/skins/skin-blue-light.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+              "projects/ng-main/src/styles/styles.scss"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/jquery-slimscroll/jquery.slimscroll.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/admin-lte/dist/js/adminlte.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-main/src/environments/environment.ts",
+                  "with": "projects/ng-main/src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -44,10 +45,11 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
               ]
             }
@@ -56,42 +58,34 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "administration:build"
+            "browserTarget": "ng-main:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "administration:build:production"
+              "browserTarget": "ng-main:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "administration:build"
+            "browserTarget": "ng-main:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "karmaConfig": "src/karma.conf.js",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/jquery-slimscroll/jquery.slimscroll.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/admin-lte/dist/js/adminlte.js"
-            ],
+            "main": "projects/ng-main/src/test.ts",
+            "polyfills": "projects/ng-main/src/polyfills.ts",
+            "tsConfig": "projects/ng-main/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-main/karma.conf.js",
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/admin-lte/dist/css/AdminLTE.min.css",
-              "node_modules/admin-lte/dist/css/skins/skin-blue-light.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+              "projects/ng-main/src/styles/styles.scss"
             ],
+            "scripts": [],
             "assets": [
-              "src/assets",
-              "src/favicon.ico"
+              "projects/ng-main/src/favicon.ico",
+              "projects/ng-main/src/assets"
             ]
           }
         },
@@ -99,8 +93,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "projects/ng-main/tsconfig.app.json",
+              "projects/ng-main/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -109,23 +103,27 @@
         }
       }
     },
-    "administration-e2e": {
-      "root": "",
+    "ng-main-e2e": {
+      "root": "projects/ng-main-e2e/",
       "projectType": "application",
+      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "administration:serve"
+            "protractorConfig": "projects/ng-main-e2e/protractor.conf.js",
+            "devServerTarget": "ng-main:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-main:serve:production"
+            }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
+            "tsConfig": "projects/ng-main-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -134,14 +132,5 @@
       }
     }
   },
-  "defaultProject": "administration",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "css"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
-    }
-  }
+  "defaultProject": "ng-main"
 }
