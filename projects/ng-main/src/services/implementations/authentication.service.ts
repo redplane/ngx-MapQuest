@@ -2,10 +2,10 @@
  * Created by Linh Nguyen on 6/7/2017.
  */
 import {Injectable} from "@angular/core";
-import {AuthorizationToken} from "../../models/authorization-token";
+import {LoginResultViewModel} from "../../view-models/login-result-view-model";
 import {Router} from "@angular/router";
 import {IAuthenticationService} from "../interfaces/authentication-service.interface";
-import {AppSettings} from "../../constants/app-settings.constant";
+import {AppSettingConstant} from "../../constants/app-settings.constant";
 
 @Injectable()
 export class AuthenticationService implements IAuthenticationService {
@@ -15,7 +15,7 @@ export class AuthenticationService implements IAuthenticationService {
   /*
   * Initiate component with injectors.
   * */
-  public constructor(private router: Router, private appSettings: AppSettings){
+  public constructor(protected router: Router){
 
   }
 
@@ -26,36 +26,36 @@ export class AuthenticationService implements IAuthenticationService {
   /*
    * Store identity into local storage.
    * */
-  public setAuthorization(identity: AuthorizationToken): void {
-    localStorage.setItem(this.appSettings.identityStorage, JSON.stringify(identity));
+  public setAuthorization(identity: LoginResultViewModel): void {
+    localStorage.setItem(AppSettingConstant.identityStorage, JSON.stringify(identity));
   }
 
   /*
    * Remove identity from cache.
    * */
   public clearIdentity(): void {
-    localStorage.removeItem(this.appSettings.identityStorage);
+    localStorage.removeItem(AppSettingConstant.identityStorage);
   }
 
   /*
   * Get authorization token from local storage.
   * */
-  public getAuthorization(): AuthorizationToken{
+  public getAuthorization(): LoginResultViewModel{
 
     // Get authorization token from local storage.
-    let authorizationToken = localStorage.getItem(this.appSettings.identityStorage);
+    let authorizationToken = localStorage.getItem(AppSettingConstant.identityStorage);
 
     // Authorization is invalid.
     if (authorizationToken == null || authorizationToken.length < 1)
       return null;
 
-    return <AuthorizationToken> JSON.parse(authorizationToken);
+    return <LoginResultViewModel> JSON.parse(authorizationToken);
   };
 
   /*
   * Check whether authorization token is valid or not.
   * */
-  public isAuthorizationValid(authorizationToken: AuthorizationToken): boolean{
+  public isAuthorizationValid(authorizationToken: LoginResultViewModel): boolean{
 
     // Token is not valid.
     if (authorizationToken == null)

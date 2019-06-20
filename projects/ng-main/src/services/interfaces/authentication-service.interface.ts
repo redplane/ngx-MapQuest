@@ -1,7 +1,7 @@
 /**
  * Created by Linh Nguyen on 6/7/2017.
  */
-import {AuthorizationToken} from "../../models/authorization-token";
+import {LoginResultViewModel} from "../../view-models/login-result-view-model";
 
 export interface IAuthenticationService {
 
@@ -10,12 +10,12 @@ export interface IAuthenticationService {
   /*
    * Save identity into local storage.
    * */
-  setAuthorization(identity: AuthorizationToken): void;
+  setAuthorization(identity: LoginResultViewModel): void;
 
   /*
    * Get identity in local storage.
    * */
-  getAuthorization(): AuthorizationToken;
+  getAuthorization(): LoginResultViewModel;
 
   /*
    * Remove identity from cache.
@@ -25,12 +25,12 @@ export interface IAuthenticationService {
   /*
    * Get authorization token from local storage.
    * */
-  getAuthorization(): AuthorizationToken;
+  getAuthorization(): LoginResultViewModel;
 
   /*
    * Check whether authorization token is valid or not.
    * */
-  isAuthorizationValid(authorizationToken: AuthorizationToken): boolean;
+  isAuthorizationValid(authorizationToken: LoginResultViewModel): boolean;
 
   /*
   * Redirect to login page.

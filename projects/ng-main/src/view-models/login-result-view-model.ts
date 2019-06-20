@@ -1,5 +1,5 @@
 // Class which stores information of token which is for authorizing user into system.
-export class AuthorizationToken{
+export class LoginResultViewModel{
   //#region Properties
 
   // Code which is used for accessing to system.

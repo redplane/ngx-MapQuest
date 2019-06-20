@@ -1,11 +1,11 @@
-export class AppSettings{
+export class AppSettingConstant {
 
   //#region Properties
 
   /*
   * Key in local storage to store authentication token.
   * */
-  public identityStorage: string = 'iAuthorizationToken';
+  public static readonly identityStorage: string = 'iAuthorizationToken';
 
   //#endregion
 }

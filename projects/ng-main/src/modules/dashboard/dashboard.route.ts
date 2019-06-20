@@ -1,9 +1,10 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {DashboardComponent} from './dashboard.component';
-import {AuthorizeLayoutComponent} from '../shared/authorize-layout/authorize-layout.component';
+import {AuthenticatedLayoutComponent} from '../shared/authenticated-layout/authenticated-layout.component';
 import {IsAuthorizedGuard} from '../../guards/is-authorized-guard';
 import {ProfileResolve} from '../../resolves/profile.resolve';
+import {AuthenticatedLayoutModule} from '../shared/authenticated-layout/authenticated-layout.module';
 
 //#region Route configuration
 
@@ -11,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'prefix',
-    component: AuthorizeLayoutComponent,
+    component: AuthenticatedLayoutComponent,
     canActivate: [IsAuthorizedGuard],
     resolve: {
       profile: ProfileResolve
@@ -36,8 +37,15 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    AuthenticatedLayoutModule,
+    RouterModule.forChild(routes)
+  ],
+  declarations: [
+    DashboardComponent
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class DashboardRouteModule {
 }

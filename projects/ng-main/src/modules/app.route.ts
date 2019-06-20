@@ -1,6 +1,14 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MomentModule} from 'ngx-moment';
+import {HttpClientModule} from '@angular/common/http';
+import {GuardModule} from '../guards/guard.module';
+import {ServiceModule} from '../services/service.module';
+import {ResolveModule} from '../resolves/resolve.module';
+
+//#endregion
 
 //#region Properties
 
@@ -20,7 +28,7 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: './account/account.module#AccountModule'
+        loadChildren: './login/login.module#LoginModule'
       }
     ]
   }
@@ -33,9 +41,17 @@ export const routes: Routes = [
     AppComponent
   ],
   imports: [
+    BrowserAnimationsModule, // required animations module
+    MomentModule,
+    HttpClientModule,
+
+    // Application modules.
+    GuardModule.forRoot(),
+    ServiceModule.forRoot(),
+    ResolveModule.forRoot(),
     RouterModule.forRoot(routes, {enableTracing: false})
   ],
-  exports:[
+  exports: [
     RouterModule
   ],
   bootstrap: [AppComponent]

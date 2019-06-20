@@ -1,36 +1,74 @@
-
-import {mergeMap, map, filter} from 'rxjs/operators';
-import {Component, Host, HostBinding, OnInit, Renderer2} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-
-
+import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {INgRxMessageBusService} from 'ngrx-message-bus';
+import {Subscription} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
+import {MessageChannelConstant} from '../constants/message-channel.constant';
+import {MessageEventConstant} from '../constants/message-event.constant';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'body',
   templateUrl: 'app.component.html'
 })
-
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   title = 'app';
 
   //#region Properties
 
+  /*
+  * Subscription about page body update.
+  * */
+  private _hookPageBodyUpdateEventSubscription: Subscription;
+
+  /*
+  * Catch side-bar display message subscription.
+  * */
+  private _hookSideBarDisplayMessageSubscription: Subscription;
+
+  /*
+  * Base host class.
+  * */
+  private _hostClass: string;
+
+  /*
+  * Class that applied to whole page.
+  * */
   @HostBinding('class')
-  public hostClass: string = 'page-top';
+  public get hostClass(): string {
+
+    // Initialize output class.
+    let outputHostClass = this._hostClass;
+    if (!outputHostClass) {
+      outputHostClass = '';
+    }
+
+    if (this._shouldSideBarHidden) {
+      outputHostClass += ' sidebar-toggled';
+    }
+
+    return outputHostClass;
+  }
+
+  /*
+  * Should side-bar be hidden or not.
+  * */
+  private _shouldSideBarHidden = true;
 
   //#endregion
 
   //#region Constructor
 
-  public constructor(private router: Router,
-                     private activatedRoute: ActivatedRoute,
-                     private renderer: Renderer2) {
-
+  public constructor(protected router: Router,
+                     @Inject('INgRxMessageBusService') protected messageBusService: INgRxMessageBusService,
+                     protected translateService: TranslateService) {
+    this.translateService.use('en-US');
   }
 
-  //#endrgion
+  //#endregion
 
   //#region Methods
 
@@ -39,28 +77,61 @@ export class AppComponent implements OnInit {
   * */
   public ngOnInit(): void {
 
-    // Register to router events to set application layout.
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map((route) => {
-        while (route.firstChild) route = route.firstChild;
-        return route;
-      }),
-      filter((route) => route.outlet === 'primary'),
-      mergeMap((route) => route.data),)
-      .subscribe((event) => {
-        let classes = event.appCssClasses;
+    // Hook to update page class event in ui channel.
+    this._hookPageBodyUpdateEventSubscription = this.messageBusService
+      .channelAddedEvent
+      .pipe(
+        filter((model: { channelName: string, eventName: string }) => {
+          return model.channelName === MessageChannelConstant.ui && model.eventName === MessageEventConstant.updatePageClass;
+        }),
+        switchMap((model: { channelName: string, eventName: string }) => {
+          return this.messageBusService
+            .hookMessageChannel(model.channelName, model.eventName)
+            .pipe(
+              distinctUntilChanged(),
+              debounceTime(150)
+            );
+        })
+      )
+      .subscribe((updatedClass: string) => {
 
-        if (!classes || classes.length < 1)
+        if (!updatedClass) {
           return;
-
-        for (let szClass of classes){
-          this.renderer.addClass(document.body, szClass);
         }
 
-
+        this._hostClass = updatedClass;
       });
+
+    // Listen to side-bar toggle event in ui channel.
+    this._hookSideBarDisplayMessageSubscription = this.messageBusService
+      .channelAddedEvent
+      .pipe(
+        filter((model: { channelName: string, eventName: string }) => {
+          return model.channelName === MessageChannelConstant.ui && model.eventName === MessageEventConstant.displaySidebar;
+        }),
+        switchMap((model: { channelName: string, eventName: string }) => {
+          return this.messageBusService
+            .hookMessageChannel<boolean>(model.channelName, model.eventName);
+        })
+      )
+      .subscribe(shouldSideBarVisible => {
+        this._shouldSideBarHidden = !shouldSideBarVisible;
+      });
+  }
+
+  /*
+  * Called when component is destroyed.
+  * */
+  public ngOnDestroy(): void {
+
+    // Unsubscribe created subscription to prevent memory leaks.
+    if (this._hookPageBodyUpdateEventSubscription && !this._hookPageBodyUpdateEventSubscription.closed) {
+      this._hookPageBodyUpdateEventSubscription.unsubscribe();
+    }
+
+    if (this._hookSideBarDisplayMessageSubscription && !this._hookSideBarDisplayMessageSubscription.closed) {
+      this._hookSideBarDisplayMessageSubscription.unsubscribe();
+    }
   }
 
 
