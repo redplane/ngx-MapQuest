@@ -1,5 +1,5 @@
 import {Component, HostBinding, Inject, OnInit} from '@angular/core';
-import {INgRxMessageBusService} from 'ngrx-message-bus';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {Subscription} from 'rxjs';
 import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../../../constants/message-event.constant';
@@ -45,7 +45,7 @@ export class SideBarComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject('INgRxMessageBusService') protected messageBusService: INgRxMessageBusService) {
+  public constructor(@Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService) {
 
   }
 
@@ -56,16 +56,7 @@ export class SideBarComponent implements OnInit {
 
     // Listen to side-bar toggle event in ui channel.
     this._hookSideBarDisplayMessageSubscription = this.messageBusService
-      .channelAddedEvent
-      .pipe(
-        filter((model: { channelName: string, eventName: string }) => {
-          return model.channelName === MessageChannelConstant.ui && model.eventName === MessageEventConstant.displaySidebar;
-        }),
-        switchMap((model: { channelName: string, eventName: string }) => {
-          return this.messageBusService
-            .hookMessageChannel<boolean>(model.channelName, model.eventName);
-        })
-      )
+      .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
       .subscribe(shouldSideBarVisible => {
         this._shouldSideBarHidden = !shouldSideBarVisible;
       });

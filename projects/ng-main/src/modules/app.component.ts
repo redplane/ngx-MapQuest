@@ -1,11 +1,12 @@
 import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {INgRxMessageBusService} from 'ngrx-message-bus';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {MessageChannelConstant} from '../constants/message-channel.constant';
 import {MessageEventConstant} from '../constants/message-event.constant';
 import {TranslateService} from '@ngx-translate/core';
+import {Message} from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -63,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //#region Constructor
 
   public constructor(protected router: Router,
-                     @Inject('INgRxMessageBusService') protected messageBusService: INgRxMessageBusService,
+                     @Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService,
                      protected translateService: TranslateService) {
     this.translateService.use('en-US');
   }
@@ -79,20 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Hook to update page class event in ui channel.
     this._hookPageBodyUpdateEventSubscription = this.messageBusService
-      .channelAddedEvent
-      .pipe(
-        filter((model: { channelName: string, eventName: string }) => {
-          return model.channelName === MessageChannelConstant.ui && model.eventName === MessageEventConstant.updatePageClass;
-        }),
-        switchMap((model: { channelName: string, eventName: string }) => {
-          return this.messageBusService
-            .hookMessageChannel(model.channelName, model.eventName)
-            .pipe(
-              distinctUntilChanged(),
-              debounceTime(150)
-            );
-        })
-      )
+      .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.updatePageClass)
       .subscribe((updatedClass: string) => {
 
         if (!updatedClass) {
@@ -104,16 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Listen to side-bar toggle event in ui channel.
     this._hookSideBarDisplayMessageSubscription = this.messageBusService
-      .channelAddedEvent
-      .pipe(
-        filter((model: { channelName: string, eventName: string }) => {
-          return model.channelName === MessageChannelConstant.ui && model.eventName === MessageEventConstant.displaySidebar;
-        }),
-        switchMap((model: { channelName: string, eventName: string }) => {
-          return this.messageBusService
-            .hookMessageChannel<boolean>(model.channelName, model.eventName);
-        })
-      )
+      .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
       .subscribe(shouldSideBarVisible => {
         this._shouldSideBarHidden = !shouldSideBarVisible;
       });

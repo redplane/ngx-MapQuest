@@ -4,6 +4,7 @@
 import {Inject, Injectable} from "@angular/core";
 import {CanActivate, Router} from "@angular/router";
 import {IAuthenticationService} from "../services/interfaces/authentication-service.interface";
+import {UI_SERVICE_INJECTION_TOKEN} from '../constants/injection-token.constant';
 
 @Injectable()
 export class IsAuthorizedGuard implements CanActivate {
@@ -13,7 +14,7 @@ export class IsAuthorizedGuard implements CanActivate {
   * Initiate guard component with injectors.
   * */
   public constructor(
-    @Inject('IAuthenticationService') private authenticationService: IAuthenticationService,
+    @Inject(UI_SERVICE_INJECTION_TOKEN) private authenticationService: IAuthenticationService,
     private router: Router) {}
 
   //#endregion

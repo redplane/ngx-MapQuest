@@ -3,9 +3,10 @@ import {LoginViewModel} from '../../view-models/login.view-model';
 import {IAuthenticationService} from '../../services/interfaces/authentication-service.interface';
 import {LoginResultViewModel} from '../../view-models/login-result-view-model';
 import {Router} from '@angular/router';
-import {INgRxMessageBusService} from 'ngrx-message-bus';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {MessageChannelConstant} from '../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../constants/message-event.constant';
+import {UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -37,8 +38,8 @@ export class LoginComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject('IAuthenticationService') protected authenticationService: IAuthenticationService,
-                     @Inject('INgRxMessageBusService') protected messageBusService: INgRxMessageBusService,
+  public constructor(@Inject(UI_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
+                     @Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService,
                      public router: Router) {
     this.model = new LoginViewModel();
 

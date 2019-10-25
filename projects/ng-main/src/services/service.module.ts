@@ -4,6 +4,11 @@ import {AccountService} from './implementations/account.service';
 import {IAuthenticationService} from './interfaces/authentication-service.interface';
 import {AuthenticationService} from './implementations/authentication.service';
 import {UiService} from './implementations/ui.service';
+import {
+  AUTHENTICATION_SERVICE_INJECTION_TOKEN,
+  UI_SERVICE_INJECTION_TOKEN,
+  USER_SERVICE_INJECTION_TOKEN
+} from '../constants/injection-token.constant';
 
 @NgModule({})
 
@@ -15,9 +20,9 @@ export class ServiceModule {
     return {
       ngModule: ServiceModule,
       providers: [
-        {provide: 'IAccountService', useClass: AccountService},
-        {provide: 'IAuthenticationService', useClass: AuthenticationService},
-        {provide: 'IUiService', useClass: UiService}
+        {provide: USER_SERVICE_INJECTION_TOKEN, useClass: AccountService},
+        {provide: AUTHENTICATION_SERVICE_INJECTION_TOKEN, useClass: AuthenticationService},
+        {provide: UI_SERVICE_INJECTION_TOKEN, useClass: UiService}
       ]
     };
   }

@@ -22,9 +22,7 @@ export function appConfigServiceFactory(appConfigService: AppConfigService) {
   imports: [
     AppRouteModule,
     // Message bus settings
-    NgRxMessageBusModule.forRoot({
-      subscriptionAttemptMode: 'infinite'
-    }),
+    NgRxMessageBusModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
