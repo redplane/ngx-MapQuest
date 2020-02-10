@@ -16,7 +16,7 @@ export class ServiceModule {
 
   //#region Methods
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<ServiceModule> {
     return {
       ngModule: ServiceModule,
       providers: [

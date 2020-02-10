@@ -12,7 +12,7 @@ import {Message} from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'body',
-  templateUrl: 'app.component.html'
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
 

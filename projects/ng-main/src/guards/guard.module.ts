@@ -5,7 +5,7 @@ import {IsAuthorizedGuard} from './is-authorized-guard';
 
 export class GuardModule {
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<GuardModule> {
     return {
       ngModule: GuardModule,
       providers: [

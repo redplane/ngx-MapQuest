@@ -7,7 +7,7 @@ export class ResolveModule {
 
   //#region Methods
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<ResolveModule> {
     return {
       ngModule: ResolveModule,
       providers: [
