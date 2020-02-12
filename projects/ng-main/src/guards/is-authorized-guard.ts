@@ -1,10 +1,10 @@
 /**
  * Created by Linh Nguyen on 6/7/2017.
  */
-import {Inject, Injectable} from "@angular/core";
-import {CanActivate, Router} from "@angular/router";
-import {IAuthenticationService} from "../services/interfaces/authentication-service.interface";
-import {UI_SERVICE_INJECTION_TOKEN} from '../constants/injection-token.constant';
+import {Inject, Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {IAuthenticationService} from '../services/interfaces/authentication-service.interface';
+import {AUTHENTICATION_SERVICE_INJECTION_TOKEN} from '../constants/injection-token.constant';
 
 @Injectable()
 export class IsAuthorizedGuard implements CanActivate {
@@ -14,8 +14,9 @@ export class IsAuthorizedGuard implements CanActivate {
   * Initiate guard component with injectors.
   * */
   public constructor(
-    @Inject(UI_SERVICE_INJECTION_TOKEN) private authenticationService: IAuthenticationService,
-    private router: Router) {}
+    @Inject(AUTHENTICATION_SERVICE_INJECTION_TOKEN) private authenticationService: IAuthenticationService,
+    private router: Router) {
+  }
 
   //#endregion
 
@@ -26,9 +27,8 @@ export class IsAuthorizedGuard implements CanActivate {
   * */
   public canActivate(): boolean {
 
-
     // Find identity stored in cache.
-    let identity = this.authenticationService.getAuthorization();
+    const identity = this.authenticationService.getAuthorization();
 
     // No identity has been found.
     if (!this.authenticationService.isAuthorizationValid(identity)) {
