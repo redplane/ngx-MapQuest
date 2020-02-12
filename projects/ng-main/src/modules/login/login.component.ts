@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {MessageChannelConstant} from '../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../constants/message-event.constant';
-import {UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
+import {AUTHENTICATION_SERVICE_INJECTION_TOKEN, UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject(UI_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
+  public constructor(@Inject(AUTHENTICATION_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
                      @Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService,
                      public router: Router) {
     this.model = new LoginViewModel();
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
     }
 
     // Generate a forgery token and set to local storage.
-    let authorizationToken = new LoginResultViewModel();
+    const authorizationToken = new LoginResultViewModel();
     authorizationToken.code = '12345';
     authorizationToken.expire = new Date().getTime() + 3600000;
     authorizationToken.lifeTime = 3600;

@@ -1,12 +1,10 @@
-import {Component, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {Subscription} from 'rxjs';
-import {debounceTime, distinctUntilChanged, filter, switchMap} from 'rxjs/operators';
 import {MessageChannelConstant} from '../constants/message-channel.constant';
 import {MessageEventConstant} from '../constants/message-event.constant';
 import {TranslateService} from '@ngx-translate/core';
-import {Message} from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -36,25 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private _hostClass: string;
 
   /*
-  * Class that applied to whole page.
-  * */
-  @HostBinding('class')
-  public get hostClass(): string {
-
-    // Initialize output class.
-    let outputHostClass = this._hostClass;
-    if (!outputHostClass) {
-      outputHostClass = '';
-    }
-
-    if (this._shouldSideBarHidden) {
-      outputHostClass += ' sidebar-toggled';
-    }
-
-    return outputHostClass;
-  }
-
-  /*
   * Should side-bar be hidden or not.
   * */
   private _shouldSideBarHidden = true;
@@ -65,7 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public constructor(protected router: Router,
                      @Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService,
-                     protected translateService: TranslateService) {
+                     protected translateService: TranslateService,
+                     protected elementRef: ElementRef) {
     this.translateService.use('en-US');
   }
 
@@ -87,7 +67,17 @@ export class AppComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this._hostClass = updatedClass;
+        // Initialize output class.
+        let outputHostClass = this._hostClass;
+        if (!outputHostClass) {
+          outputHostClass = updatedClass;
+        }
+
+        if (this._shouldSideBarHidden) {
+          outputHostClass += ' sidebar-toggled';
+        }
+
+        this.elementRef.nativeElement.class = outputHostClass;
       });
 
     // Listen to side-bar toggle event in ui channel.

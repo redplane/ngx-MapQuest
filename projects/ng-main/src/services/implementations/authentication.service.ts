@@ -1,11 +1,11 @@
 /**
  * Created by Linh Nguyen on 6/7/2017.
  */
-import {Injectable} from "@angular/core";
-import {LoginResultViewModel} from "../../view-models/login-result-view-model";
-import {Router} from "@angular/router";
-import {IAuthenticationService} from "../interfaces/authentication-service.interface";
-import {AppSettingConstant} from "../../constants/app-settings.constant";
+import {Injectable} from '@angular/core';
+import {LoginResultViewModel} from '../../view-models/login-result-view-model';
+import {Router} from '@angular/router';
+import {IAuthenticationService} from '../interfaces/authentication-service.interface';
+import {AppSettingConstant} from '../../constants/app-settings.constant';
 
 @Injectable()
 export class AuthenticationService implements IAuthenticationService {
@@ -15,7 +15,7 @@ export class AuthenticationService implements IAuthenticationService {
   /*
   * Initiate component with injectors.
   * */
-  public constructor(protected router: Router){
+  public constructor(protected router: Router) {
 
   }
 
@@ -40,30 +40,33 @@ export class AuthenticationService implements IAuthenticationService {
   /*
   * Get authorization token from local storage.
   * */
-  public getAuthorization(): LoginResultViewModel{
+  public getAuthorization(): LoginResultViewModel {
 
     // Get authorization token from local storage.
-    let authorizationToken = localStorage.getItem(AppSettingConstant.identityStorage);
+    const authorizationToken = localStorage.getItem(AppSettingConstant.identityStorage);
 
     // Authorization is invalid.
-    if (authorizationToken == null || authorizationToken.length < 1)
+    if (authorizationToken == null || authorizationToken.length < 1) {
       return null;
+    }
 
-    return <LoginResultViewModel> JSON.parse(authorizationToken);
+    return <LoginResultViewModel>JSON.parse(authorizationToken);
   };
 
   /*
   * Check whether authorization token is valid or not.
   * */
-  public isAuthorizationValid(authorizationToken: LoginResultViewModel): boolean{
+  public isAuthorizationValid(authorizationToken: LoginResultViewModel): boolean {
 
     // Token is not valid.
-    if (authorizationToken == null)
+    if (authorizationToken == null) {
       return false;
+    }
 
     // Authorization token code is not valid.
-    if (authorizationToken.code == null || authorizationToken.code.length < 1)
+    if (authorizationToken.code == null || authorizationToken.code.length < 1) {
       return false;
+    }
 
     // // Authorization token has been expired.
     // if (authorizationToken.expire >= Date.now())
@@ -75,8 +78,9 @@ export class AuthenticationService implements IAuthenticationService {
   /*
   * Redirect to login page.
   * */
-  public redirectToLogin(): void{
+  public redirectToLogin(): void {
     this.router.navigate(['/login']);
   }
+
   //#endregion
 }
