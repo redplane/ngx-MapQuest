@@ -1,16 +1,13 @@
-# ngx-structure
+# ngx-structure [![Build status](https://ci.appveyor.com/api/projects/status/t3nucjr5vwtqa4c3?svg=true)](https://ci.appveyor.com/project/redplane/ngx-structure)
 
-Description:
+#### Description:
 
- * This is a simple structure of an `Angular 5` application. This project is integrated with Webpack for files bundling & live reload.
+ * This is a simple structure of an `Angular 9` application. This project is integrated with Webpack for files bundling & live reload.
 
  * Language supported : 
     * Typescript.
-
-* Angular CLI:
-    * 1.7.4
     
-Online demo can be found [here](https://ngx-structure.netlify.com):
+  * Online demo can be found [here](https://ngx-structure.netlify.com):
 
 #### Project structure.
 ```
@@ -56,7 +53,7 @@ Online demo can be found [here](https://ngx-structure.netlify.com):
 - ```index.html```: Application entry html file.
 
 ### Project commnands.
-- `ng serve`: Bundle and publish project files. Files which are generated will be placed inside `dist` folder.
+- `ng s`: Bundle and publish project files. Files which are generated will be placed inside `dist` folder.
 - `npm build --prod`: Bundle and start watching project. This is for development stage. Browser will be reloaded automatically when changes are detected.
 
 ### Added plugins:
