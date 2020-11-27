@@ -49,7 +49,7 @@ export const routes: Routes = [
     GuardModule.forRoot(),
     ServiceModule.forRoot(),
     ResolveModule.forRoot(),
-    RouterModule.forRoot(routes, {enableTracing: false})
+    RouterModule.forRoot(routes, { enableTracing: false, relativeLinkResolution: 'legacy' })
   ],
   exports: [
     RouterModule
