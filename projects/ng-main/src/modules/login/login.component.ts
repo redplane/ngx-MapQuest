@@ -3,7 +3,6 @@ import {LoginViewModel} from '../../view-models/login.view-model';
 import {IAuthenticationService} from '../../services/interfaces/authentication-service.interface';
 import {LoginResultViewModel} from '../../view-models/login-result-view-model';
 import {Router} from '@angular/router';
-import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_INJECTOR} from 'ngrx-message-bus';
 import {MessageChannelConstant} from '../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../constants/message-event.constant';
 import {AUTHENTICATION_SERVICE_INJECTION_TOKEN, UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit {
   //#region Constructor
 
   public constructor(@Inject(AUTHENTICATION_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
-                     @Inject(MESSAGE_BUS_SERVICE_INJECTOR) protected messageBusService: INgRxMessageBusService,
                      public router: Router) {
     this.model = new LoginViewModel();
 
@@ -53,8 +51,8 @@ export class LoginComponent implements OnInit {
   * Called when component is initialized.
   * */
   public ngOnInit(): void {
-    this.messageBusService
-      .addMessage<string>(MessageChannelConstant.ui, MessageEventConstant.updatePageClass, 'bg-gradient-primary');
+    // this.messageBusService
+    //   .addMessage<string>(MessageChannelConstant.ui, MessageEventConstant.updatePageClass, 'bg-gradient-primary');
   }
 
   /*
