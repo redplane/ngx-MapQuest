@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
+    "ngrx-message-bus": "https://www.myget.org/F/ngrx-message-bus/npm/ngrx-message-bus/-/4.0.0.tgz",
     "@popperjs/core": "^2.0.6",
     "bootstrap": "^4.4.1",
     "core-js": "^3.3.3",

@@ -5,6 +5,7 @@ import {ProfileViewModel} from '../../../../view-models/profile.view-model';
 import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../../../constants/message-event.constant';
 import {UI_SERVICE_INJECTION_TOKEN} from '../../../../constants/injection-token.constant';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_PROVIDER} from 'ngrx-message-bus';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -32,6 +33,7 @@ export class NavigationBarComponent {
 
   // Initiate instance with IoC.
   public constructor(@Inject(UI_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
+                     @Inject(MESSAGE_BUS_SERVICE_PROVIDER) protected messageBusService: INgRxMessageBusService,
                      public router: Router) {
   }
 
@@ -59,8 +61,8 @@ export class NavigationBarComponent {
     this.shouldSidebarVisible = !this.shouldSidebarVisible;
 
     // TODO: Implement message bus.
-    // this.messageBusService
-    //   .addMessage<boolean>(MessageChannelConstant.ui, MessageEventConstant.displaySidebar, this.shouldSidebarVisible);
+    this.messageBusService
+      .addMessage<boolean>(MessageChannelConstant.ui, MessageEventConstant.displaySidebar, this.shouldSidebarVisible);
   }
 
   //#endregion

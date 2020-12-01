@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../../../constants/message-event.constant';
 import {filter, switchMap} from 'rxjs/operators';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_PROVIDER} from 'ngrx-message-bus';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -44,28 +45,34 @@ export class SideBarComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor() {
+  public constructor(@Inject(MESSAGE_BUS_SERVICE_PROVIDER) protected messageBusService: INgRxMessageBusService) {
 
-  }
-
-  /*
-  * Called when component is initialized.
-  * */
-  public ngOnInit(): void {
-
-    // TODO: Listen to side bar
-    // Listen to side-bar toggle event in ui channel.
-    // this._hookSideBarDisplayMessageSubscription = this.messageBusService
-    //   .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
-    //   .subscribe(shouldSideBarVisible => {
-    //     this._shouldSideBarHidden = !shouldSideBarVisible;
-    //   });
   }
 
   //#endregion
 
   //#region Methods
 
+  // Called when component is initialized.
+  public ngOnInit(): void {
+
+    // TODO: Listen to side bar
+    // Listen to side-bar toggle event in ui channel.
+    this._hookSideBarDisplayMessageSubscription = this.messageBusService
+      .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
+      .subscribe(shouldSideBarVisible => {
+        this._shouldSideBarHidden = !shouldSideBarVisible;
+        console.log(this._shouldSideBarHidden);
+      });
+  }
+
+  //#endregion
+
+  //#region Methods
+
+  public clickSidebar(): void {
+    this.messageBusService.addMessage(MessageChannelConstant.ui, MessageEventConstant.displaySidebar, true);
+  }
 
   //#endregion
 }

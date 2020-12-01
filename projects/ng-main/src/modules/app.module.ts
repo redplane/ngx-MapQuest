@@ -5,6 +5,7 @@ import {AppConfigService} from '../services/implementations/app-config.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../factories/ngx-translate.factory';
 import {HttpClient} from '@angular/common/http';
+import {NgRxMessageBusModule} from 'ngrx-message-bus';
 
 //#region Factories
 
@@ -20,6 +21,10 @@ export function appConfigServiceFactory(appConfigService: AppConfigService) {
   declarations: [],
   imports: [
     AppRouteModule,
+
+    // Message bus registration.
+    NgRxMessageBusModule.forRoot(),
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

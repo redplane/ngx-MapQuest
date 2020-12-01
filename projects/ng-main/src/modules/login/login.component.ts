@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {MessageChannelConstant} from '../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../constants/message-event.constant';
 import {AUTHENTICATION_SERVICE_INJECTION_TOKEN, UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
+import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_PROVIDER} from 'ngrx-message-bus';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
   //#region Constructor
 
   public constructor(@Inject(AUTHENTICATION_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
+                     @Inject(MESSAGE_BUS_SERVICE_PROVIDER) protected messageBusService: INgRxMessageBusService,
                      public router: Router) {
     this.model = new LoginViewModel();
 
@@ -51,8 +53,8 @@ export class LoginComponent implements OnInit {
   * Called when component is initialized.
   * */
   public ngOnInit(): void {
-    // this.messageBusService
-    //   .addMessage<string>(MessageChannelConstant.ui, MessageEventConstant.updatePageClass, 'bg-gradient-primary');
+    this.messageBusService
+      .addMessage<string>(MessageChannelConstant.ui, MessageEventConstant.updatePageClass, 'bg-gradient-primary');
   }
 
   /*
