@@ -6,14 +6,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../factories/ngx-translate.factory';
 import {HttpClient} from '@angular/common/http';
 import {NgRxMessageBusModule} from 'ngrx-message-bus';
-
-//#region Factories
-
-export function appConfigServiceFactory(appConfigService: AppConfigService) {
-  return () => appConfigService.loadConfigurationFromFile();
-}
-
-//#endregion
+import {appConfigServiceFactory} from '../factories/app-setting.factory';
 
 //#region Module declaration
 

@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AppConfig} from '../../models/app-config';
+import {AppSettings} from '../../models/app-settings';
 
 @Injectable()
 export class AppConfigService {
 
   //#region Properties
 
-  private _appConfiguration: AppConfig;
+  private _appConfiguration: AppSettings;
 
   //#endregion
 
@@ -24,13 +24,13 @@ export class AppConfigService {
   /*
   * Load app configuration from json file.
   * */
-  public loadConfigurationFromFile(): Promise<AppConfig> {
+  public loadSettingsAsync(): Promise<AppSettings> {
     return this.httpClient
-      .get('/assets//app.config.json')
+      .get('/assets//appsettings.json')
       .toPromise()
       .then(data => {
         console.log(data);
-        let options = <AppConfig> data;
+        let options = <AppSettings> data;
         this._appConfiguration = options;
         return options;
       });
@@ -39,7 +39,7 @@ export class AppConfigService {
   /*
   * Load configuration from cache.
   * */
-  public loadConfigurationFromCache(): AppConfig {
+  public loadConfigurationFromCache(): AppSettings {
     return this._appConfiguration;
   }
 
