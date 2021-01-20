@@ -2,7 +2,6 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MomentModule} from 'ngx-moment';
 import {HttpClientModule} from '@angular/common/http';
 import {GuardModule} from '../guards/guard.module';
 import {ServiceModule} from '../services/service.module';
@@ -42,14 +41,13 @@ export const routes: Routes = [
   ],
   imports: [
     BrowserAnimationsModule, // required animations module
-    MomentModule,
     HttpClientModule,
 
     // Application modules.
     GuardModule.forRoot(),
     ServiceModule.forRoot(),
     ResolveModule.forRoot(),
-    RouterModule.forRoot(routes, {enableTracing: false})
+    RouterModule.forRoot(routes, { enableTracing: false, relativeLinkResolution: 'legacy' })
   ],
   exports: [
     RouterModule
