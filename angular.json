@@ -7,12 +7,12 @@
       "root": "projects/ng-main/",
       "sourceRoot": "projects/ng-main/src",
       "projectType": "application",
-      "prefix": "app",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
             "outputPath": "dist/ng-main",
             "index": "projects/ng-main/src/index.html",
             "main": "projects/ng-main/src/main.ts",
@@ -56,6 +56,14 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-main/src/environments/environment.ts",
+                  "with": "projects/ng-main/src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -67,6 +75,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-main:build:production"
+            },
+            "dev": {
+              "browserTarget": "ng-main:build:dev"
             }
           }
         },
