@@ -40,9 +40,6 @@ const routes: Routes = [
     AuthenticatedLayoutModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [
-    DashboardComponent
-  ],
   exports: [
     RouterModule
   ]

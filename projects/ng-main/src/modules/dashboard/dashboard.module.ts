@@ -1,6 +1,7 @@
-import {DashboardComponent} from "./dashboard.component";
-import {NgModule} from "@angular/core";
-import {DashboardRouteModule} from "./dashboard.route";
+import {DashboardComponent} from './dashboard.component';
+import {NgModule} from '@angular/core';
+import {DashboardRouteModule} from './dashboard.route';
+import {MqMapModule} from 'ngx-map-quest';
 
 //#region Routes declaration
 
@@ -11,7 +12,11 @@ import {DashboardRouteModule} from "./dashboard.route";
 
 @NgModule({
   imports: [
+    MqMapModule,
     DashboardRouteModule
+  ],
+  declarations: [
+    DashboardComponent
   ]
 })
 

@@ -3,7 +3,15 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
     "baseUrl": "./",
-    "types": []
+    "types": [],
+    "paths": {
+      "ngx-map-quest": [
+        "../ngx-map-quest/src/public-api.ts"
+      ],
+      "ngx-map-quest/*": [
+        "../ngx-map-quest/src/public-api.ts"
+      ]
+    }
   },
   "exclude": [
     "test.ts",
