@@ -1,14 +1,63 @@
-<mq-map>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Coordinate</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let marker of markers">
+        <td>{{marker.coordinate | json}}</td>
+        <td [ngSwitch]="markerIdToAvailability[marker.id]">
+          <a *ngSwitchCase="true"
+             href="#"
+             class="text-danger"
+             (click)="$event.preventDefault(); deleteMarker(marker)">
+            <span class="fa fa-trash"></span>
+          </a>
+          <a *ngSwitchDefault
+             href="#"
+             class="text-info"
+             (click)="$event.preventDefault(); restoreMarker(marker)">
+            <span class="fa fa-refresh"></span>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <mq-marker [coordinate]="{lat: 0, lng: 0}"></mq-marker>
+  <div class="col-md-6">
+    <mq-map [options]="mqMapOptions">
 
-  <mq-circle [coordinate]="{lat: 0, lng: 0}" [options]="{radius: 20000}"></mq-circle>
+      <mq-control-satellite></mq-control-satellite>
 
-  <mq-polygon [points]="[
-          [36.99, -102.05],
-          [37, -109.05],
-          [41, -109.05],
-          [41, -102.05]
+      <mq-control-navigation></mq-control-navigation>
+
+      <mq-control-traffic></mq-control-traffic>
+
+      <mq-control-locator></mq-control-locator>
+
+      <ng-container *ngFor="let marker of markers">
+        <mq-marker *ngIf="markerIdToAvailability[marker.id]"
+                   [coordinate]="marker.coordinate"
+                   [options]="marker.options"
+                   (mq-click)="log('Marker ' + marker.id + ' clicked')"
+                   (mq-double-click)="log('Marker ' + marker.id + ' doubly clicked')"></mq-marker>
+      </ng-container>
+
+
+      <mq-circle [coordinate]="{lat: 0, lng: 0}" [options]="{radius: 20000}"></mq-circle>
+
+      <mq-polygon [points]="[
+          [21.075062, 105.758304],
+          [21.087864,105.8636543],
+          [21.195344, 105.870197],
+          [21.203374, 105.826138]
         ]"
-              [options]="{color: 'red'}"></mq-polygon>
-</mq-map>
+                  [options]="{color: 'red'}"></mq-polygon>
+    </mq-map>
+  </div>
+</div>

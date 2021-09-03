@@ -1,6 +1,6 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {AppRouteModule} from './app.route';
+import {AppRouteModule} from './app-routing.module';
 import {AppConfigService} from '../services/implementations/app-config.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../factories/ngx-translate.factory';

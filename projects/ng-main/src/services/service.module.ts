@@ -11,6 +11,7 @@ import {
 } from '../constants/injection-token.constant';
 import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-map-quest';
 import {MqMapKeyResolver} from './implementations/mq-map-key.resolver';
+import {MarkerStorageService} from './implementations/marker-storage.service';
 
 @NgModule({})
 
@@ -28,7 +29,8 @@ export class ServiceModule {
         {
           provide: MAP_QUEST_KEY_RESOLVER_PROVIDER,
           useClass: MqMapKeyResolver
-        }
+        },
+        MarkerStorageService
       ]
     };
   }

@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -18,16 +18,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: '/dashboard'
-      },
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-      },
-      {
-        path: 'login',
-        loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+        loadChildren: () => import('./dashboard/dashboard.module')
+          .then(m => m.DashboardModule)
       }
     ]
   }
@@ -47,7 +39,7 @@ export const routes: Routes = [
     GuardModule.forRoot(),
     ServiceModule.forRoot(),
     ResolveModule.forRoot(),
-    RouterModule.forRoot(routes, { enableTracing: false, relativeLinkResolution: 'legacy' })
+    RouterModule.forRoot(routes, {enableTracing: false, relativeLinkResolution: 'legacy'})
   ],
   exports: [
     RouterModule

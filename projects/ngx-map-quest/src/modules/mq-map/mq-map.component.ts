@@ -1,6 +1,9 @@
 import {
   AfterContentInit,
-  AfterViewInit, Component, ContentChildren,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
   ElementRef,
   EventEmitter,
   Inject,
@@ -13,11 +16,13 @@ import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from '../../constants/injectors';
 import {IMqMapKeyResolver} from '../../services/interfaces/mq-map-key-resolver.interface';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {LayerEvent, LayersControlEvent, MapOptions, ResizeEvent} from 'leaflet';
-import {cloneDeep} from 'lodash-es';
+import {cloneDeep, merge as lodashMerge} from 'lodash-es';
 import {switchMap, tap} from 'rxjs/operators';
-import {MqMarkerDirective} from './mq-marker.directive';
 import {MqCircleDirective} from './mq-circle.directive';
 import {MqPolygonDirective} from './mq-polygon.directive';
+import {MqMapService} from '../../services/mq-map.service';
+import {MqMarkerService} from '../../services/mq-marker.service';
+import {MqSelectorIds} from '../../constants/mq-selector-ids';
 
 declare var L: any;
 
@@ -25,7 +30,12 @@ declare var L: any;
   // tslint:disable-next-line:component-selector
   selector: 'mq-map',
   template: `
-    <ng-content></ng-content>`
+    <ng-content></ng-content>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    MqMapService,
+    MqMarkerService
+  ]
 })
 export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
@@ -33,9 +43,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   // Map control.
   private _mapControl: L.Map;
-
-  // Markers which have been added into map.
-  private readonly _addedMarkers: L.Marker[];
 
   // Circles which have been added into map.
   private readonly _addedCircles: L.Circle[];
@@ -55,9 +62,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   // Subscription watch list.
   protected subscription: Subscription;
 
-  @ContentChildren(MqMarkerDirective, {emitDistinctChangesOnly: true, descendants: false})
-  public markers: QueryList<MqMarkerDirective>;
-
   @ContentChildren(MqCircleDirective, {emitDistinctChangesOnly: true, descendants: false})
   public circles: QueryList<MqCircleDirective>;
 
@@ -67,6 +71,10 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   //#endregion
 
   //#region Accessors
+
+  public get instance(): L.Map {
+    return this._mapControl;
+  }
 
   @Input()
   public set options(value: MapOptions) {
@@ -78,84 +86,67 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   //#region Events
 
   @Output()
-  public readonly baseLayerChange: EventEmitter<LayersControlEvent>;
+  public readonly baseLayerChange: EventEmitter<LayersControlEvent> = new EventEmitter<LayersControlEvent>();
 
   @Output()
-  public readonly overlayAdd: EventEmitter<LayersControlEvent>;
+  public readonly overlayAdd: EventEmitter<LayersControlEvent> = new EventEmitter<LayersControlEvent>();
 
   @Output()
-  public readonly overlayRemove: EventEmitter<LayersControlEvent>;
+  public readonly overlayRemove: EventEmitter<LayersControlEvent> = new EventEmitter<LayersControlEvent>();
 
   @Output()
-  public readonly layerAdd: EventEmitter<LayerEvent>;
+  public readonly layerAdd: EventEmitter<LayerEvent> = new EventEmitter<LayerEvent>();
 
   @Output()
-  public readonly layerRemove: EventEmitter<LayerEvent>;
+  public readonly layerRemove: EventEmitter<LayerEvent> = new EventEmitter<LayerEvent>();
 
   @Output()
-  public readonly zoomLevelsChange: EventEmitter<Event>;
+  public readonly zoomLevelsChange: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly resize: EventEmitter<ResizeEvent>;
+  public readonly resize: EventEmitter<ResizeEvent> = new EventEmitter<ResizeEvent>();
 
   @Output()
-  public readonly unload: EventEmitter<Event>;
+  public readonly unload: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly viewReset: EventEmitter<Event>;
+  public readonly viewReset: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly load: EventEmitter<Event>;
+  public readonly loadEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly zoomStart: EventEmitter<Event>;
+  public readonly zoomStart: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly moveStart: EventEmitter<Event>;
+  public readonly moveStart: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly zoom: EventEmitter<Event>;
+  public readonly zoom: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly move: EventEmitter<Event>;
+  public readonly move: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly zoomEnd: EventEmitter<Event>;
+  public readonly zoomEnd: EventEmitter<Event> = new EventEmitter<Event>();
 
   @Output()
-  public readonly moveEnd: EventEmitter<Event>;
+  public readonly moveEnd: EventEmitter<Event> = new EventEmitter<Event>();
 
   //#endregion
 
   //#region Constructor
 
   public constructor(protected elementRef: ElementRef,
-                     @Inject(MAP_QUEST_KEY_RESOLVER_PROVIDER) protected mapKeyResolver: IMqMapKeyResolver) {
+                     @Inject(MAP_QUEST_KEY_RESOLVER_PROVIDER) protected mapKeyResolver: IMqMapKeyResolver,
+                     protected readonly markerService: MqMarkerService,
+                     protected readonly mqMapService: MqMapService) {
 
     this._mapControl = null;
-    this._addedMarkers = [];
     this._addedCircles = [];
     this._addedPolygons = [];
 
     this._buildMapSubject = new Subject<void>();
-
-    // Event registration.
-    this.baseLayerChange = new EventEmitter<LayersControlEvent>();
-    this.overlayAdd = new EventEmitter<LayersControlEvent>();
-    this.overlayRemove = new EventEmitter<LayersControlEvent>();
-    this.layerAdd = new EventEmitter<LayerEvent>();
-    this.layerRemove = new EventEmitter<LayerEvent>();
-    this.zoomLevelsChange = new EventEmitter<Event>();
-    this.resize = new EventEmitter<ResizeEvent>();
-    this.unload = new EventEmitter<Event>();
-    this.viewReset = new EventEmitter<Event>();
-    this.load = new EventEmitter<Event>();
-    this.zoomStart = new EventEmitter<Event>();
-    this.moveStart = new EventEmitter<Event>();
-    this.zoom = new EventEmitter<Event>();
-    this.move = new EventEmitter<Event>();
-    this.zoomEnd = new EventEmitter<Event>();
-    this.moveEnd = new EventEmitter<Event>();
 
     this.subscription = new Subscription();
   }
@@ -180,11 +171,11 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
                 this._key = key;
 
                 L.mapquest.key = key;
-                const mapControl = L.mapquest.map(this.elementRef.nativeElement, this._options || {
-                  center: [0, 0],
+                const options = lodashMerge({
                   layers: L.mapquest.tileLayer('map'),
                   zoom: 12
-                });
+                }, this._options);
+                const mapControl = L.mapquest.map(this.elementRef.nativeElement, options);
 
                 mapControl.addEventListener('baselayerchange', (event: LayersControlEvent) => this.baseLayerChange.emit(event));
                 mapControl.addEventListener('overlayadd', (event: LayersControlEvent) => this.overlayAdd.emit(event));
@@ -195,8 +186,7 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
                 mapControl.addEventListener('resize', (event: ResizeEvent) => this.resize.emit(event));
                 mapControl.addEventListener('unload', (event: Event) => this.unload.emit(event));
                 mapControl.addEventListener('viewreset', (event: Event) => this.viewReset.emit(event));
-                mapControl.addEventListener('load', (event: Event) => this.load.emit(event));
-                mapControl.addEventListener('load', (event: Event) => this.load.emit(event));
+                mapControl.addEventListener('load', (event: Event) => this.loadEvent.emit(event));
                 mapControl.addEventListener('zoomstart', (event: Event) => this.zoomStart.emit(event));
                 mapControl.addEventListener('movestart', (event: Event) => this.moveStart.emit(event));
                 mapControl.addEventListener('zoom', (event: Event) => this.zoom.emit(event));
@@ -205,6 +195,7 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
                 mapControl.addEventListener('moveend', (event: Event) => this.moveEnd.emit(event));
 
                 this._mapControl = mapControl;
+                this.mqMapService.markMapAsLoaded(this._mapControl);
               })
             );
         })
@@ -222,18 +213,11 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   public ngAfterContentInit(): void {
 
-    // Build markers.
-    this.buildMarkers();
-
     // Build circles
     this.buildCircles();
 
     // Build polygons.
     this.buildPolygons();
-
-    this.markers.changes.subscribe(value => {
-      console.log(value);
-    });
 
     this.circles.changes.subscribe(value => {
       console.log(value);
@@ -244,31 +228,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   //#endregion
 
   //#region Internal methods
-
-  protected buildMarkers(): void {
-
-    if (!this._mapControl) {
-      return;
-    }
-
-    // Remove the added markers.
-    if (this._addedMarkers && this._addedMarkers.length) {
-      for (const addedMarker of this._addedMarkers) {
-        this._mapControl.removeLayer(addedMarker);
-      }
-
-      this._addedMarkers.splice(0);
-    }
-
-    for (const marker of this.markers) {
-
-      const addedMarker = L.marker(marker.coordinate, marker.options)
-        .addTo(this._mapControl);
-
-      this._mapControl.addLayer(addedMarker);
-      this._addedMarkers.push(addedMarker);
-    }
-  }
 
   protected buildCircles(): void {
     if (!this._mapControl) {

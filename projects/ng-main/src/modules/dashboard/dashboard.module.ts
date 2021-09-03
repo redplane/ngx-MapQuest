@@ -2,6 +2,7 @@ import {DashboardComponent} from './dashboard.component';
 import {NgModule} from '@angular/core';
 import {DashboardRouteModule} from './dashboard.route';
 import {MqMapModule} from 'ngx-map-quest';
+import {CommonModule} from '@angular/common';
 
 //#region Routes declaration
 
@@ -13,7 +14,8 @@ import {MqMapModule} from 'ngx-map-quest';
 @NgModule({
   imports: [
     MqMapModule,
-    DashboardRouteModule
+    DashboardRouteModule,
+    CommonModule
   ],
   declarations: [
     DashboardComponent
