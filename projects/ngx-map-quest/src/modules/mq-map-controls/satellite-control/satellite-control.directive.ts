@@ -1,7 +1,7 @@
 import {Directive, Input, OnDestroy, OnInit} from '@angular/core';
 import {SatelliteControlOptions} from '../../../models/satellite-control-options';
 import {cloneDeep} from 'lodash-es';
-import {MqMapComponent} from '../mq-map.component';
+import {MqMapComponent} from '../../mq-map/mq-map.component';
 import {Subject, Subscription} from 'rxjs';
 import {MqMapService} from '../../../services/mq-map.service';
 import {debounceTime} from 'rxjs/operators';

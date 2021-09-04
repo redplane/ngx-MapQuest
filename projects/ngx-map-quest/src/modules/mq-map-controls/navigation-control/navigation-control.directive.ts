@@ -1,20 +1,25 @@
-import {Input, OnDestroy, OnInit} from '@angular/core';
-import {cloneDeep} from 'lodash-es';
-import {MqMapComponent} from '../mq-map.component';
+import {Directive, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
+import {cloneDeep} from 'lodash-es';
+import {MqMapComponent} from '../../mq-map/mq-map.component';
 import {MqMapService} from '../../../services/mq-map.service';
 import {debounceTime} from 'rxjs/operators';
+import {NavigationControlOptions} from '../../../models/navigation-control-options';
 
 declare var L: any;
 
-export abstract class MqMapControl<T> implements OnInit, OnDestroy {
+@Directive({
+  // tslint:disable-next-line:directive-selector
+  selector: 'mq-map mq-control-navigation'
+})
+export class NavigationControlDirective implements OnInit, OnDestroy {
 
   //#region Properties
 
-  private _options: T;
+  private _options: NavigationControlOptions;
 
   // Instance of satellite control
-  protected _instance: L.Control;
+  private _instance: L.Control;
 
   // Raised when option is changed.
   private readonly _optionChangedSubject: Subject<void>;
@@ -29,12 +34,12 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
 
   //#region Accessors
 
-  public get options(): T {
+  public get options(): NavigationControlOptions {
     return this._options;
   }
 
   @Input()
-  public set options(value: T) {
+  public set options(value: NavigationControlOptions) {
     this._options = cloneDeep(value);
     this._optionChangedSubject.next();
   }
@@ -43,8 +48,8 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
 
   //#region Constructor
 
-  protected constructor(protected readonly mqMap: MqMapComponent,
-                        protected readonly mqMapService: MqMapService) {
+  public constructor(protected readonly mqMap: MqMapComponent,
+                     protected readonly mqMapService: MqMapService) {
     this._optionChangedSubject = new Subject<void>();
     this._subscription = new Subscription();
   }
@@ -62,7 +67,7 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
           mapControl.removeControl(this._instance);
         }
 
-        this._instance = this.addControl();
+        this._instance = L.mapquest.navigationControl(this._options);
         mapControl.addControl(this._instance);
         this.hookOptionChangedEvent();
       });
@@ -98,13 +103,12 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
           this.mqMap.instance.removeControl(this._instance);
         }
 
-        this._instance = this.addControl();
+        this._instance = L.mapquest.satelliteControl(this._options);
         this.mqMap.instance.addControl(this._instance);
       });
     this._subscription.add(this._hookOptionChangedSubscription);
-  }
 
-  protected abstract addControl(): L.Control;
+  }
 
   //#endregion
 }

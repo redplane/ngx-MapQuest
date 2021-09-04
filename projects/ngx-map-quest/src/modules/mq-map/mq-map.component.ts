@@ -22,7 +22,6 @@ import {MqCircleDirective} from './mq-circle.directive';
 import {MqPolygonDirective} from './mq-polygon.directive';
 import {MqMapService} from '../../services/mq-map.service';
 import {MqMarkerService} from '../../services/mq-marker.service';
-import {MqSelectorIds} from '../../constants/mq-selector-ids';
 
 declare var L: any;
 

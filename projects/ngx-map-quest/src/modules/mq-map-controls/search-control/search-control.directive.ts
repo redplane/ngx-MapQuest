@@ -1,16 +1,16 @@
-import {MqMapControl} from './mq-map-control';
-import {TrafficControlOptions} from '../../../models/traffic-control-options';
 import {Directive} from '@angular/core';
+import {MqMapControl} from '../mq-map-control';
+import {SearchControlOptions} from '../../../models/search-control-options';
+import {MqMapComponent} from '../../mq-map/mq-map.component';
 import {MqMapService} from '../../../services/mq-map.service';
-import { MqMapComponent } from '../mq-map.component';
 
 declare var L: any;
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: 'mq-map mq-control-traffic'
+  selector: 'mq-map mq-control-search'
 })
-export class TrafficControlDirective extends MqMapControl<TrafficControlOptions> {
+export class SearchControlDirective extends MqMapControl<SearchControlOptions> {
 
   //#region Constructor
 
@@ -24,7 +24,7 @@ export class TrafficControlDirective extends MqMapControl<TrafficControlOptions>
   //#region Methods
 
   protected addControl(): L.Control {
-    return L.mapquest.trafficControl(this.options);
+    return L.mapquest.searchControl(this.options);
   }
 
   //#endregion

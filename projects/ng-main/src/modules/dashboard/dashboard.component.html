@@ -40,6 +40,8 @@
 
       <mq-control-locator></mq-control-locator>
 
+      <mq-control-search></mq-control-search>
+
       <ng-container *ngFor="let marker of markers">
         <mq-marker *ngIf="markerIdToAvailability[marker.id]"
                    [coordinate]="marker.coordinate"

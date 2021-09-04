@@ -1,8 +1,8 @@
-import {MqMapControl} from './mq-map-control';
+import {MqMapControl} from '../mq-map-control';
 import {LocatorControlOptions} from '../../../models/locator-control-options';
 import {Directive} from '@angular/core';
 import {MqMapService} from '../../../services/mq-map.service';
-import { MqMapComponent } from '../mq-map.component';
+import { MqMapComponent } from '../../mq-map/mq-map.component';
 
 declare var L: any;
 
