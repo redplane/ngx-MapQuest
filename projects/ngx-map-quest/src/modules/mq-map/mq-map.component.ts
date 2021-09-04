@@ -3,14 +3,12 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
   ElementRef,
   EventEmitter,
   Inject,
   Input,
   OnInit,
-  Output,
-  QueryList
+  Output
 } from '@angular/core';
 import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from '../../constants/injectors';
 import {IMqMapKeyResolver} from '../../services/interfaces/mq-map-key-resolver.interface';
@@ -18,10 +16,10 @@ import {Observable, of, Subject, Subscription} from 'rxjs';
 import {LayerEvent, LayersControlEvent, MapOptions, ResizeEvent} from 'leaflet';
 import {cloneDeep, merge as lodashMerge} from 'lodash-es';
 import {switchMap, tap} from 'rxjs/operators';
-import {MqCircleDirective} from './mq-circle.directive';
-import {MqPolygonDirective} from './mq-polygon.directive';
 import {MqMapService} from '../../services/mq-map.service';
 import {MqMarkerService} from '../../services/mq-marker.service';
+import {MqCircleService} from '../../services/mq-circle.service';
+import {MqPolygonService} from '../../services/mq-polygon.service';
 
 declare var L: any;
 
@@ -33,7 +31,9 @@ declare var L: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     MqMapService,
-    MqMarkerService
+    MqMarkerService,
+    MqCircleService,
+    MqPolygonService
   ]
 })
 export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
@@ -42,12 +42,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   // Map control.
   private _mapControl: L.Map;
-
-  // Circles which have been added into map.
-  private readonly _addedCircles: L.Circle[];
-
-  // Polygons which have been added into map.
-  protected readonly _addedPolygons: L.Polygon[];
 
   // Key which used for initializing map control.
   protected _key: string;
@@ -60,12 +54,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   // Subscription watch list.
   protected subscription: Subscription;
-
-  @ContentChildren(MqCircleDirective, {emitDistinctChangesOnly: true, descendants: false})
-  public circles: QueryList<MqCircleDirective>;
-
-  @ContentChildren(MqPolygonDirective, {emitDistinctChangesOnly: true, descendants: false})
-  public polygons: QueryList<MqPolygonDirective>;
 
   //#endregion
 
@@ -142,9 +130,6 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
                      protected readonly mqMapService: MqMapService) {
 
     this._mapControl = null;
-    this._addedCircles = [];
-    this._addedPolygons = [];
-
     this._buildMapSubject = new Subject<void>();
 
     this.subscription = new Subscription();
@@ -211,70 +196,11 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-
-    // Build circles
-    this.buildCircles();
-
-    // Build polygons.
-    this.buildPolygons();
-
-    this.circles.changes.subscribe(value => {
-      console.log(value);
-    });
-
   }
 
   //#endregion
 
   //#region Internal methods
-
-  protected buildCircles(): void {
-    if (!this._mapControl) {
-      return;
-    }
-
-    // Remove the added markers.
-    if (this._addedCircles && this._addedCircles.length) {
-      for (const addedCircle of this._addedCircles) {
-        this._mapControl.removeLayer(addedCircle);
-      }
-
-      this._addedCircles.splice(0);
-    }
-
-    for (const circle of this.circles) {
-
-      const addedCircle = L.circle(circle.coordinate, circle.options)
-        .addTo(this._mapControl);
-
-      this._mapControl.addLayer(addedCircle);
-      this._addedCircles.push(addedCircle);
-    }
-  }
-
-  protected buildPolygons(): void {
-    if (!this._mapControl) {
-      return;
-    }
-
-    // Remove the added markers.
-    if (this._addedPolygons && this._addedPolygons.length) {
-      for (const addedPolygon of this._addedPolygons) {
-        this._mapControl.removeLayer(addedPolygon);
-      }
-
-      this._addedPolygons.splice(0);
-    }
-
-    for (const polygon of this.polygons) {
-
-      const addedPolygon = L.polygon(polygon.points, polygon.options)
-        .addTo(this._mapControl);
-
-      this._mapControl.addLayer(addedPolygon);
-      this._addedCircles.push(addedPolygon);
-    }
-  }
 
   //#endregion
 }
