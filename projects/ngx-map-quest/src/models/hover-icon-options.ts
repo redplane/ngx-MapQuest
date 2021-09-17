@@ -1,4 +1,4 @@
-import {MQ_HOVER_ICON_SIZE} from 'ngx-map-quest';
+import {MQ_HOVER_ICON_SIZE} from '../constants/data-types';
 
 export class HoverIconOptions {
 

@@ -1,4 +1,4 @@
-import {MQ_LOCATOR_CONTROL_POSITION} from 'ngx-map-quest';
+import {MQ_LOCATOR_CONTROL_POSITION} from '../constants/data-types';
 
 export class LocatorControlOptions {
 
