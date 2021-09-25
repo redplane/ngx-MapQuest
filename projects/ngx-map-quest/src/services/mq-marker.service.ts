@@ -1,5 +1,5 @@
 import {Marker} from 'leaflet';
-import {MqMarker} from '../models/mq-marker';
+import {MqMarker} from '../models/entities/mq-marker';
 import {EventEmitter} from '@angular/core';
 
 export class MqMarkerService {

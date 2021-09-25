@@ -1,7 +1,35 @@
 {
-  "TITLE_ITEM_01": "Item 01",
-  "TITLE_ITEM_02": "Item 02",
-  "TITLE_STUDENT_PROFILE": "Student profile",
-  "TITLE_STUDENT_DASHBOARD": "Student dashboard",
-  "TITLE_LOGIN": "Login"
+  "HOME_PAGE": {
+
+  },
+  "SIDE_BAR": {
+    "HOME_MENU_ITEM": "Home",
+    "PLACE_SEARCH_ITEM": "Place search"
+  },
+
+  "PLACE_SEARCH_PAGE": {
+    "LOCATION": "Location",
+    "CATEGORY": "Category",
+    "SORT": "Sort",
+    "FEEDBACK": "Feedback",
+    "CIRCLE": "Circle",
+    "BOUNDING_BOX": "Bounding box",
+    "CORRIDOR": "Corridor",
+    "PAGE": "Page",
+    "PAGE_SIZE": "Page size",
+    "KEYWORD": "Keyword",
+    "SUBMIT_BUTTON": "Submit",
+
+    "FEEDBACK_OPTIONS": {
+      "YES": "Yes",
+      "NO": "No"
+    },
+
+    "SORT_OPTIONS": {
+      "RELEVANCE": "Relevance",
+      "DISTANCE": "Distance"
+    },
+
+    "RESULT": "Result"
+  }
 }

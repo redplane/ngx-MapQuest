@@ -6,6 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {GuardModule} from '../guards/guard.module';
 import {ServiceModule} from '../services/service.module';
 import {ResolveModule} from '../resolves/resolve.module';
+import {MasterLayoutComponent} from './shared/master-layout/master-layout.component';
 
 //#endregion
 
@@ -15,11 +16,17 @@ import {ResolveModule} from '../resolves/resolve.module';
 export const routes: Routes = [
   {
     path: '',
+    component: MasterLayoutComponent,
     children: [
       {
+        path: 'place-search',
+        loadChildren: () => import('./place-search-demo/place-search-demo.module')
+          .then(m => m.PlaceSearchDemoModule)
+      },
+      {
         path: '',
-        loadChildren: () => import('./dashboard/dashboard.module')
-          .then(m => m.DashboardModule)
+        loadChildren: () => import('./home/home.module')
+          .then(m => m.HomeModule)
       }
     ]
   }

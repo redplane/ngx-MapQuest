@@ -7,6 +7,7 @@ import {HttpLoaderFactory} from '../factories/ngx-translate.factory';
 import {HttpClient} from '@angular/common/http';
 import {NgRxMessageBusModule} from 'ngrx-message-bus';
 import {appConfigServiceFactory} from '../factories/app-setting.factory';
+import {MasterLayoutModule} from './shared/master-layout/master-layout.module';
 
 //#region Module declaration
 
@@ -17,6 +18,7 @@ import {appConfigServiceFactory} from '../factories/app-setting.factory';
 
     // Message bus registration.
     NgRxMessageBusModule.forRoot(),
+    MasterLayoutModule,
 
     TranslateModule.forRoot({
       loader: {

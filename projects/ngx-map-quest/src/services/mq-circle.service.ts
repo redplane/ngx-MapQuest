@@ -1,6 +1,6 @@
 import {EventEmitter} from '@angular/core';
 import {CircleMarker} from 'leaflet';
-import {MqCircle} from '../models/mq-circle';
+import {MqCircle} from '../models/entities/mq-circle';
 
 export class MqCircleService {
 

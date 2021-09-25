@@ -74,8 +74,8 @@ export class LoginComponent implements OnInit {
     authorizationToken.lifeTime = 3600;
     this.authenticationService.setAuthorization(authorizationToken);
 
-    // Redirect to dashboard.
-    this.router.navigate(['/dashboard']);
+    // Redirect to home.
+    this.router.navigate(['/home']);
   }
 
 

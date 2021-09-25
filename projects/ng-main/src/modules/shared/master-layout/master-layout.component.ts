@@ -5,10 +5,10 @@ import {ProfileViewModel} from '../../../view-models/profile.view-model';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'div[authenticated-layout]',
-  templateUrl: 'authenticated-layout.component.html'
+  templateUrl: 'master-layout.component.html'
 })
 
-export class AuthenticatedLayoutComponent implements OnInit {
+export class MasterLayoutComponent implements OnInit {
 
   //#region Properties
 

@@ -2,3 +2,4 @@ export type MQ_NAVIGATION_CONTROL_POSITION = 'topleft' | 'topright' | 'bottomlef
 export type MQ_TRAFFIC_CONTROL_POSITION = MQ_NAVIGATION_CONTROL_POSITION;
 export type MQ_LOCATOR_CONTROL_POSITION = MQ_NAVIGATION_CONTROL_POSITION;
 export type MQ_HOVER_ICON_SIZE = 'sm' | 'md' | 'lg';
+export type MQ_PLACE_SEARCH_SORT = 'relevance' | 'distance';

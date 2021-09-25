@@ -1,6 +1,6 @@
-import {DashboardComponent} from './dashboard.component';
+import {HomeComponent} from './home.component';
 import {NgModule} from '@angular/core';
-import {DashboardRouteModule} from './dashboard.route';
+import {HomeRoutingModule} from './home-routing.module';
 import {
   LocatorControlModule,
   MqMapModule,
@@ -21,7 +21,7 @@ import {CommonModule} from '@angular/common';
 @NgModule({
   imports: [
     MqMapModule,
-    DashboardRouteModule,
+    HomeRoutingModule,
     CommonModule,
 
     SatelliteControlModule,
@@ -31,11 +31,11 @@ import {CommonModule} from '@angular/common';
     SearchControlModule
   ],
   declarations: [
-    DashboardComponent
+    HomeComponent
   ]
 })
 
-export class DashboardModule {
+export class HomeModule {
 }
 
 //#endregion

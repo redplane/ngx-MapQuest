@@ -7,11 +7,11 @@ import {cloneDeep} from 'lodash-es';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'dashboard',
-  templateUrl: 'dashboard.component.html',
-  styleUrls: ['dashboard.component.scss']
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.scss']
 })
 
-export class DashboardComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   //#region Properties
 
