@@ -153,6 +153,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
+          "outputPath": "dist/ngx-MapQuest",
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-MapQuest/tsconfig.lib.json",
