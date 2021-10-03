@@ -14,11 +14,11 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "paths": {
-      "ngx-map-quest": [
-        "projects/ngx-map-quest/src/public-api.ts"
+      "ngx-MapQuest": [
+        "projects/ngx-MapQuest/src/public-api.ts"
       ],
-      "ngx-map-quest/*": [
-        "projects/ngx-map-quest/src/public-api.ts"
+      "ngx-MapQuest/*": [
+        "projects/ngx-MapQuest/src/public-api.ts"
       ]
     },
     "experimentalDecorators": true,

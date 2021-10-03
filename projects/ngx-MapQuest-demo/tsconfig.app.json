@@ -5,11 +5,11 @@
     "baseUrl": "./",
     "types": [],
     "paths": {
-      "ngx-map-quest": [
-        "../ngx-map-quest/src/public-api.ts"
+      "ngx-MapQuest": [
+        "../ngx-MapQuest/src/public-api.ts"
       ],
-      "ngx-map-quest/*": [
-        "../ngx-map-quest/src/public-api.ts"
+      "ngx-MapQuest/*": [
+        "../ngx-MapQuest/src/public-api.ts"
       ]
     }
   },

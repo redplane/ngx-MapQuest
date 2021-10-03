@@ -1,7 +1,5 @@
-import {NgModule, ModuleWithProviders} from '@angular/core';
-import {IAccountService} from './interfaces/account-service.interface';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import {AccountService} from './implementations/account.service';
-import {IAuthenticationService} from './interfaces/authentication-service.interface';
 import {AuthenticationService} from './implementations/authentication.service';
 import {UiService} from './implementations/ui.service';
 import {
@@ -9,9 +7,9 @@ import {
   UI_SERVICE_INJECTION_TOKEN,
   USER_SERVICE_INJECTION_TOKEN
 } from '../constants/injection-token.constant';
-import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-map-quest';
 import {MqMapKeyResolver} from './implementations/mq-map-key.resolver';
 import {MarkerStorageService} from './implementations/marker-storage.service';
+import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-MapQuest';
 
 @NgModule({})
 

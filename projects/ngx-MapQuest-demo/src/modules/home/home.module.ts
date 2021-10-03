@@ -8,7 +8,7 @@ import {
   SatelliteControlModule,
   SearchControlModule,
   TrafficControlModule
-} from 'ngx-map-quest';
+} from 'ngx-MapQuest';
 import {CommonModule} from '@angular/common';
 
 //#region Routes declaration
