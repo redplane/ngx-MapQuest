@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MqMarker} from '../../models/mq-marker';
 import {MarkerStorageService} from '../../services/implementations/marker-storage.service';
-import {Marker} from 'leaflet';
 import {cloneDeep} from 'lodash-es';
+import {TextMarkerStorageService} from '../../services/implementations/text-marker-storage.service';
+import {TextMarker} from '../../models/text-marker';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +20,9 @@ export class HomeComponent implements OnInit {
 
   private _markers: MqMarker[];
 
-  private _markerIdToAvailability: {[id: string]: boolean};
+  private _textMarkers: TextMarker[];
+
+  private _markerIdToAvailability: { [id: string]: boolean };
 
   //#endregion
 
@@ -33,7 +36,11 @@ export class HomeComponent implements OnInit {
     return this._markers;
   }
 
-  public get markerIdToAvailability(): {[id: string]: boolean} {
+  public get textMarkers(): TextMarker[] {
+    return this._textMarkers;
+  }
+
+  public get markerIdToAvailability(): { [id: string]: boolean } {
     return this._markerIdToAvailability;
   }
 
@@ -41,7 +48,8 @@ export class HomeComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(protected readonly markerStorageService: MarkerStorageService) {
+  public constructor(protected readonly markerStorageService: MarkerStorageService,
+                     protected readonly textMarkerStorageService: TextMarkerStorageService) {
     this._mqMapOptions = {};
     this._mqMapOptions.center = {
       lat: 20.9894862,
@@ -59,12 +67,14 @@ export class HomeComponent implements OnInit {
   public ngOnInit(): void {
 
     const markers = this.markerStorageService.loadMarkers();
-    const idToAvailability: {[id: string]: boolean} = {};
+    const idToAvailability: { [id: string]: boolean } = {};
     for (const marker of markers) {
       idToAvailability[marker.id] = true;
     }
     this._markerIdToAvailability = idToAvailability;
     this._markers = markers;
+
+    this._textMarkers = this.textMarkerStorageService.getTextMarkers();
   }
 
   //#endregion

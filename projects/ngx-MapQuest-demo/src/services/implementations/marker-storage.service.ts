@@ -16,13 +16,13 @@ export class MarkerStorageService {
     });
     markers.push(labourUniversity);
 
-    const vimecoCtFourTower = new MqMarker(uuid(),{
+    const vimecoCtFourTower = new MqMarker(uuid(), {
       lat: 21.003395,
       lng: 105.785127
     });
     markers.push(vimecoCtFourTower);
 
-    const phuongDongUniversity = new MqMarker(uuid(),{
+    const phuongDongUniversity = new MqMarker(uuid(), {
       lat: 21.013706,
       lng: 105.7916586
     });
