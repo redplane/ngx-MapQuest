@@ -4,6 +4,7 @@ import {MqMarkerDirective} from './mq-marker.directive';
 import {MqCircleDirective} from './mq-circle.directive';
 import {MqPolygonDirective} from './mq-polygon.directive';
 import {MqTextMarkerDirective} from './mq-text-marker.directive';
+import {MqMarkerPopupDirective} from './mq-marker-popup.directive';
 
 @NgModule({
   declarations: [
@@ -11,14 +12,16 @@ import {MqTextMarkerDirective} from './mq-text-marker.directive';
     MqMarkerDirective,
     MqTextMarkerDirective,
     MqCircleDirective,
-    MqPolygonDirective
+    MqPolygonDirective,
+    MqMarkerPopupDirective
   ],
   exports: [
     MqMapComponent,
     MqMarkerDirective,
     MqTextMarkerDirective,
     MqCircleDirective,
-    MqPolygonDirective
+    MqPolygonDirective,
+    MqMarkerPopupDirective
   ]
 })
 export class MqMapModule {

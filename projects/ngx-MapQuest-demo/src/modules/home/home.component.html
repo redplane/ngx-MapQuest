@@ -47,13 +47,16 @@
                    [coordinate]="marker.coordinate"
                    [options]="marker.options"
                    (mq-click)="log('Marker ' + marker.id + ' clicked')"
-                   (mq-double-click)="log('Marker ' + marker.id + ' doubly clicked')"></mq-marker>
+                   (mq-double-click)="log('Marker ' + marker.id + ' doubly clicked')">
+          <mq-marker-popup [content]="'<b>hello world</b>'"></mq-marker-popup>
+        </mq-marker>
       </ng-container>
 
       <!--Text marker-->
       <mq-text-marker *ngFor="let textMarker of textMarkers"
                       [coordinate]="textMarker.coordinate"
-                      [options]="textMarker.options"></mq-text-marker>
+                      [options]="textMarker.options">
+      </mq-text-marker>
 
 
       <mq-circle [coordinate]="{lat: 21.180002, lng: 106.059967}" [options]="{radius: 10000}"></mq-circle>

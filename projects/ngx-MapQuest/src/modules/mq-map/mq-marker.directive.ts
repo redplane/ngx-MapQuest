@@ -16,26 +16,6 @@ declare type MARKER_PROPERTY = 'coordinate' | 'options';
 })
 export class MqMarkerDirective implements OnInit, OnDestroy {
 
-  //#region Properties
-
-  // Id of mq marker.
-  private readonly _uuid: string;
-
-  // Marker instance.
-  private _instance: L.Marker;
-
-  // Coordinate of marker.
-  private _coordinate: LatLngExpression;
-
-  // Option of marker.
-  private _options: L.MarkerOptions;
-
-  // Subscription watch list.
-  private _subscription: Subscription;
-
-  // Raise event to update marker instance.
-  private _updateInstanceSubject: Subject<{ property: MARKER_PROPERTY, value: any }>;
-
   //#endregion
 
   //#region Accessors
@@ -64,7 +44,44 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
   //#endregion
 
+  //#region Constructor
+
+  public constructor(protected readonly markerService: MqMarkerService,
+                     protected readonly mqMapService: MqMapService,
+                     protected readonly mapComponent: MqMapComponent) {
+    this._uuid = uuid();
+
+    this._updateInstanceSubject = new Subject<{ property: MARKER_PROPERTY, value: any }>();
+    this._subscription = new Subscription();
+  }
+
+  //#region Properties
+
+  // Id of mq marker.
+  private readonly _uuid: string;
+
+  // Marker instance.
+  private _instance: L.Marker;
+
+  // Coordinate of marker.
+  private _coordinate: LatLngExpression;
+
+  // Option of marker.
+  private _options: L.MarkerOptions;
+
+  // Subscription watch list.
+  private _subscription: Subscription;
+
+  // Raise event to update marker instance.
+  private _updateInstanceSubject: Subject<{ property: MARKER_PROPERTY, value: any }>;
+
+  //#endregion
+
   //#region Events
+
+  // tslint:disable-next-line:no-output-rename
+  @Output('mq-ready')
+  public readonly readyEvent: EventEmitter<void> = new EventEmitter<void>();
 
   // tslint:disable-next-line:no-output-rename
   @Output('mq-move')
@@ -118,17 +135,8 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
   @Output('mq-context-menu')
   public readonly contextMenuEvent: EventEmitter<LeafletMouseEvent> = new EventEmitter<LeafletMouseEvent>();
 
-  //#endregion
-
-  //#region Constructor
-
-  public constructor(protected readonly markerService: MqMarkerService,
-                     protected readonly mqMapService: MqMapService,
-                     protected readonly mapComponent: MqMapComponent) {
-    this._uuid = uuid();
-
-    this._updateInstanceSubject = new Subject<{ property: MARKER_PROPERTY, value: any }>();
-    this._subscription = new Subscription();
+  public instance(): L.Marker {
+    return this._instance;
   }
 
   //#endregion
@@ -153,6 +161,9 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
         // Hook instance updated event.
         this.hookInstanceUpdateEvent();
+
+        // Mark the marker as ready.
+        this.readyEvent.emit();
       });
     this._subscription.add(hookMapLoadedSubscription);
   }
