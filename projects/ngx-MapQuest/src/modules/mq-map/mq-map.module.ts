@@ -5,6 +5,8 @@ import {MqCircleDirective} from './mq-circle.directive';
 import {MqPolygonDirective} from './mq-polygon.directive';
 import {MqTextMarkerDirective} from './mq-text-marker.directive';
 import {MqMarkerPopupDirective} from './mq-marker-popup.directive';
+import {MqFileLoaderService} from '../../services/mq-file-loader.service';
+import {MqHeatLayerDirective} from './mq-heat-layer.directive';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import {MqMarkerPopupDirective} from './mq-marker-popup.directive';
     MqTextMarkerDirective,
     MqCircleDirective,
     MqPolygonDirective,
-    MqMarkerPopupDirective
+    MqMarkerPopupDirective,
+    MqHeatLayerDirective
   ],
   exports: [
     MqMapComponent,
@@ -21,7 +24,11 @@ import {MqMarkerPopupDirective} from './mq-marker-popup.directive';
     MqTextMarkerDirective,
     MqCircleDirective,
     MqPolygonDirective,
-    MqMarkerPopupDirective
+    MqMarkerPopupDirective,
+    MqHeatLayerDirective
+  ],
+  providers: [
+    MqFileLoaderService
   ]
 })
 export class MqMapModule {

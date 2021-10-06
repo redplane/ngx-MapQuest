@@ -11,6 +11,7 @@ import {MqMapKeyResolver} from './implementations/mq-map-key.resolver';
 import {MarkerStorageService} from './implementations/marker-storage.service';
 import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-MapQuest';
 import {TextMarkerStorageService} from './implementations/text-marker-storage.service';
+import {HeatLayerPointService} from './implementations/heat-layer-point.service';
 
 @NgModule({})
 
@@ -30,7 +31,8 @@ export class ServiceModule {
           useClass: MqMapKeyResolver
         },
         MarkerStorageService,
-        TextMarkerStorageService
+        TextMarkerStorageService,
+        HeatLayerPointService
       ]
     };
   }

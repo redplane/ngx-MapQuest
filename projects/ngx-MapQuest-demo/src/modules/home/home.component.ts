@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MqMarker} from '../../models/mq-marker';
 import {MarkerStorageService} from '../../services/implementations/marker-storage.service';
 import {cloneDeep} from 'lodash-es';
 import {TextMarkerStorageService} from '../../services/implementations/text-marker-storage.service';
 import {TextMarker} from '../../models/text-marker';
+import {HeatLayerPointService} from '../../services/implementations/heat-layer-point.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'dashboard',
   templateUrl: 'home.component.html',
-  styleUrls: ['home.component.scss']
+  styleUrls: ['home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   //#region Properties
 
@@ -22,7 +25,11 @@ export class HomeComponent implements OnInit {
 
   private _textMarkers: TextMarker[];
 
+  private _heatLayerPoints: any[];
+
   private _markerIdToAvailability: { [id: string]: boolean };
+
+  private readonly _subscription: Subscription;
 
   //#endregion
 
@@ -44,12 +51,18 @@ export class HomeComponent implements OnInit {
     return this._markerIdToAvailability;
   }
 
+  public get heatLayerPoints(): any[] {
+    return this._heatLayerPoints;
+  }
+
   //#endregion
 
   //#region Constructor
 
   public constructor(protected readonly markerStorageService: MarkerStorageService,
-                     protected readonly textMarkerStorageService: TextMarkerStorageService) {
+                     protected readonly textMarkerStorageService: TextMarkerStorageService,
+                     protected readonly heatLayerPointService: HeatLayerPointService,
+                     protected readonly changeDetectorRef: ChangeDetectorRef) {
     this._mqMapOptions = {};
     this._mqMapOptions.center = {
       lat: 20.9894862,
@@ -57,6 +70,7 @@ export class HomeComponent implements OnInit {
     };
 
     this._markerIdToAvailability = {};
+    this._subscription = new Subscription();
   }
 
 
@@ -73,8 +87,22 @@ export class HomeComponent implements OnInit {
     }
     this._markerIdToAvailability = idToAvailability;
     this._markers = markers;
-
     this._textMarkers = this.textMarkerStorageService.getTextMarkers();
+    this.changeDetectorRef.markForCheck();
+
+    const loadHeatLayerPointsSubscription = this.heatLayerPointService
+      .loadHeatLayerPointsAsync()
+      .subscribe(heatLayerPoints => {
+        this._heatLayerPoints = heatLayerPoints.map((addressPoint) => {
+          return [addressPoint[0], addressPoint[1]];
+        });
+        this.changeDetectorRef.markForCheck();
+      });
+    this._subscription.add(loadHeatLayerPointsSubscription);
+  }
+
+  public ngOnDestroy(): void {
+    this._subscription?.unsubscribe();
   }
 
   //#endregion
