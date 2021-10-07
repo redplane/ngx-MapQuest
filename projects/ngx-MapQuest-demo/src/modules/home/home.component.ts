@@ -6,6 +6,8 @@ import {TextMarkerStorageService} from '../../services/implementations/text-mark
 import {TextMarker} from '../../models/text-marker';
 import {HeatLayerPointService} from '../../services/implementations/heat-layer-point.service';
 import {Subscription} from 'rxjs';
+import {MarkerClusterGroupStorageService} from '../../services/implementations/marker-cluster-group-storage.service';
+import {v4 as uuid} from 'uuid';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,7 +16,6 @@ import {Subscription} from 'rxjs';
   styleUrls: ['home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class HomeComponent implements OnInit, OnDestroy {
 
   //#region Properties
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _mqMapOptions: L.MapOptions;
 
   private _markers: MqMarker[];
+
+  private _clusteredMarkers: MqMarker[];
 
   private _textMarkers: TextMarker[];
 
@@ -55,6 +58,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     return this._heatLayerPoints;
   }
 
+  public get clusteredMarkers(): MqMarker[] {
+    return this._clusteredMarkers;
+  }
+
   //#endregion
 
   //#region Constructor
@@ -62,6 +69,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public constructor(protected readonly markerStorageService: MarkerStorageService,
                      protected readonly textMarkerStorageService: TextMarkerStorageService,
                      protected readonly heatLayerPointService: HeatLayerPointService,
+                     protected readonly markerClusterGroupStorageService: MarkerClusterGroupStorageService,
                      protected readonly changeDetectorRef: ChangeDetectorRef) {
     this._mqMapOptions = {};
     this._mqMapOptions.center = {
@@ -99,6 +107,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       });
     this._subscription.add(loadHeatLayerPointsSubscription);
+
+    const loadMarkerClusterCoordinatesSubscription = this.markerClusterGroupStorageService
+      .loadMarkerClusterGroupCoordinatesAsync()
+      .subscribe(clusteredMarkerCoordinates => {
+
+        const clusteredMarkers: MqMarker[] = [];
+        for (const [latitude, longitude, title] of clusteredMarkerCoordinates) {
+          clusteredMarkers.push(new MqMarker(uuid(), {lat: latitude, lng: longitude}, {
+            title: title
+          }));
+        }
+
+        this._clusteredMarkers = clusteredMarkers;
+        this.changeDetectorRef.markForCheck();
+      });
+    this._subscription.add(loadMarkerClusterCoordinatesSubscription);
   }
 
   public ngOnDestroy(): void {

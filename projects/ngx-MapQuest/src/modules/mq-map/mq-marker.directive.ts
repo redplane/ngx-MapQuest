@@ -1,17 +1,18 @@
-import {Directive, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Directive, EventEmitter, Host, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {v4 as uuid} from 'uuid';
-import {Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {DivIcon, DragEndEvent, Icon, LatLngExpression, LeafletEvent, LeafletMouseEvent, Marker, MarkerOptions} from 'leaflet';
 import {MqMapService} from '../../services/mq-map.service';
 import {MqMapComponent} from './mq-map.component';
-import {filter, map} from 'rxjs/operators';
+import {filter, map, take} from 'rxjs/operators';
+import {MqMarkerClusterGroupComponent} from '../markers';
 
 declare var L: any;
 declare type MARKER_PROPERTY = 'coordinate' | 'icon' | 'opacity' | 'options' | 'zIndexOffset';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: 'mq-map mq-marker'
+  selector: 'mq-map mq-marker, mq-marker-cluster-group mq-marker'
 })
 export class MqMarkerDirective implements OnInit, OnDestroy {
 
@@ -66,7 +67,8 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
   //#region Constructor
 
   public constructor(protected readonly mqMapService: MqMapService,
-                     protected readonly mapComponent: MqMapComponent) {
+                     @Optional() @Host() protected readonly mqMapComponent: MqMapComponent,
+                     @Optional() @Host() protected readonly mqMarkerClusterGroupComponent: MqMarkerClusterGroupComponent) {
     this._uuid = uuid();
 
     this._updateMarkerSubject = new Subject<MARKER_PROPERTY>();
@@ -176,35 +178,38 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    const hookMapLoadedSubscription = this.mqMapService
-      .mapLoadedEvent
-      .pipe(
-        filter(mapControl => mapControl === this.mapComponent.instance)
-      )
-      .subscribe(mapControl => {
-        if (!this._instance) {
-          this._instance = L.marker(this._coordinate, this._options);
-        }
 
-        this._instance.addTo(mapControl);
-        this.hookMarkerEvent(this._instance);
+    let hookHostReadyEventObservable: Observable<void>;
 
+    const host = this.getHost();
+    if (host instanceof MqMarkerClusterGroupComponent) {
+      hookHostReadyEventObservable = host.readyEvent.pipe((take(1)));
+    } else {
+      hookHostReadyEventObservable = this.mqMapService.mapLoadedEvent
+        .pipe(
+          filter(mapControl => mapControl === this.mqMapComponent.instance),
+          take(1),
+          map(() => void (0))
+        );
+    }
+    const hookHostReadyEventSubscription = hookHostReadyEventObservable
+      .subscribe(() => {
         // Hook instance updated event.
+        this._changingOptions = true;
         this.hookInstanceUpdateEvent();
+        this._updateMarkerSubject.next('options');
 
         // Mark the marker as ready.
         this.readyEvent.emit();
       });
-    this._subscription.add(hookMapLoadedSubscription);
+    this._subscription.add(hookHostReadyEventSubscription);
   }
 
   public ngOnDestroy(): void {
 
     // Remove the marker from map when the component is destroyed.
-    if (this._instance && this.mapComponent.instance) {
-      this._instance.removeFrom(this.mapComponent.instance);
-    }
-
+    this._instance?.remove();
+    this._instance = null;
     this._subscription?.unsubscribe();
   }
 
@@ -239,12 +244,18 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
           case 'options':
             // Remove the previous instance.
-            if (this._instance && this.mapComponent.instance) {
-              this._instance.removeFrom(this.mapComponent.instance);
+            this._instance?.remove();
+
+            // Initialize marker instance.
+            this._instance = L.marker(this._coordinate, this._options);
+
+            const host = this.getHost();
+            if (host instanceof MqMarkerClusterGroupComponent) {
+              host.instance?.addLayer(this._instance);
+            } else if (host instanceof MqMapComponent) {
+              this._instance.addTo(this.mqMapComponent.instance);
             }
 
-            this._instance = L.marker(this.coordinate, this.options);
-            this._instance.addTo(this.mapComponent.instance);
             this.hookMarkerEvent(this._instance);
             this._changingOptions = false;
         }
@@ -277,6 +288,19 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
     instance.on('mouseover', (event: LeafletMouseEvent) => this.mouseOverEvent.emit(event));
     instance.on('mouseout', (event: LeafletMouseEvent) => this.mouseOutEvent.emit(event));
     instance.on('contextmenu', (event: LeafletMouseEvent) => this.contextMenuEvent.emit(event));
+  }
+
+  // Get the actual host component instance.
+  protected getHost(): MqMapComponent | MqMarkerClusterGroupComponent {
+    if (this.mqMarkerClusterGroupComponent) {
+      return this.mqMarkerClusterGroupComponent;
+    }
+
+    if (this.mqMapComponent) {
+      return this.mqMapComponent;
+    }
+
+    return null;
   }
 
   //#endregion

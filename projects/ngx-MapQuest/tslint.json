@@ -16,6 +16,7 @@
       "element",
       "lib",
       "kebab-case"
-    ]
+    ],
+    "no-output-rename": false
   }
 }

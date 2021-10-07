@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
 import {MqMapService} from '../../../services/mq-map.service';
-import {filter} from 'rxjs/operators';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {filter, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, ReplaySubject, Subject, Subscription} from 'rxjs';
 import {MqMapComponent} from '../../mq-map/mq-map.component';
 import {MarkerClusterGroupOptions} from '../../../models/marker-cluster-group-options';
 import {MqCssFile, MqScriptFile, MqSystemFile} from '../../../models';
@@ -37,11 +37,23 @@ export class MqMarkerClusterGroupComponent implements OnInit, OnDestroy {
 
   //#endregion
 
+  //#region Events
+
+  // Called when component is ready.
+  @Output('mq-ready')
+  public readonly readyEvent: Subject<void> = new ReplaySubject<void>(1);
+
+  //#endregion
+
   //#region Accessors
 
   @Input()
   public set options(value: MarkerClusterGroupOptions) {
     this._options = {...value};
+  }
+
+  public get instance(): any {
+    return this._instance;
   }
 
   //#endregion
@@ -72,6 +84,7 @@ export class MqMarkerClusterGroupComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.buildMarkerClusterGroupSubject();
+        this._buildMarkerClusterGroupSubject.next();
       });
     this._subscription.add(hookMapReadyEventSubscription);
 
@@ -94,7 +107,7 @@ export class MqMarkerClusterGroupComponent implements OnInit, OnDestroy {
     this._buildMarkerClusterGroupSubscription?.unsubscribe();
     this._buildMarkerClusterGroupSubscription = this._buildMarkerClusterGroupSubject
       .pipe(
-
+        switchMap(() => this.loadSystemFilesAsync())
       )
       .subscribe(() => {
         this.buildMarkerClusterGroup();
@@ -112,6 +125,7 @@ export class MqMarkerClusterGroupComponent implements OnInit, OnDestroy {
     this.destroyMarkerClusterGroup();
     this._instance = L.markerClusterGroup(this._options);
     this.mapComponent.instance.addLayer(this._instance);
+    this.readyEvent.next();
   }
 
   // Destroy marker cluster group.

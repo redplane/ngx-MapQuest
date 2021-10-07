@@ -58,7 +58,7 @@
                       [options]="textMarker.options">
       </mq-text-marker>
 
-      <mq-heat-layer [coordinates]="heatLayerPoints"></mq-heat-layer>
+<!--      <mq-heat-layer [coordinates]="heatLayerPoints"></mq-heat-layer>-->
 
       <mq-circle [coordinate]="{lat: 21.180002, lng: 106.059967}" [options]="{radius: 10000}"></mq-circle>
 
@@ -76,7 +76,9 @@
       </mq-image-layer>
 
       <mq-marker-cluster-group>
-
+        <mq-marker *ngFor="let clusteredMarker of clusteredMarkers"
+                   [coordinate]="clusteredMarker.coordinate"
+                   [options]="clusteredMarker.options"></mq-marker>
       </mq-marker-cluster-group>
 
     </mq-map>

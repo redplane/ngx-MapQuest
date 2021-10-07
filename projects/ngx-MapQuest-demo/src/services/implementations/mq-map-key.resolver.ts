@@ -8,7 +8,7 @@ export class MqMapKeyResolver implements IMqMapKeyResolver {
   //#region Methods
 
   public getMapQuestKeyAsync(): Observable<string> {
-    return of('lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24');
+    return of('VPXIGB9T8KFd8uj8B0LJRZtXZ8Bh4jPo');
   }
 
   //#endregion
