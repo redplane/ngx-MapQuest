@@ -28,6 +28,9 @@ import {MqFileLoaderService} from '../../services/mq-file-loader.service';
 
 declare var L: any;
 
+// Due to the issue related to DOCUMENT inject: https://github.com/angular/angular/issues/20351
+//@dynamic must be used.
+/** @dynamic */
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'mq-map',

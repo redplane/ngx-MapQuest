@@ -1,10 +1,9 @@
 import {Inject, Injectable} from '@angular/core';
-import {MqCssFile, MqScriptFile, MqSystemFile} from 'ngx-MapQuest';
 import {forkJoin, Observable, of, throwError} from 'rxjs';
 import {delay, map, mergeMap, retryWhen, tap} from 'rxjs/operators';
 import {DOCUMENT} from '@angular/common';
+import {MqScriptFile, MqSystemFile, MqCssFile} from '../models/system-files';
 
-@Injectable()
 export class MqFileLoaderService {
 
   //#region Constructor
