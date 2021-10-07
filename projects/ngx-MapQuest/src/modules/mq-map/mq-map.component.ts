@@ -11,7 +11,7 @@ import {
   Optional,
   Output
 } from '@angular/core';
-import {MAP_QUEST_KEY_RESOLVER_PROVIDER, MQ_SYSTEM_FILES_PROVIDER} from '../../constants/injectors';
+import {MAP_QUEST_KEY_RESOLVER_PROVIDER, MQ_MAP_REQUIRED_FILES_PROVIDER} from '../../constants/injectors';
 import {IMqMapKeyResolver} from '../../services/interfaces/mq-map-key-resolver.interface';
 import {Observable, of, Subject, Subscription} from 'rxjs';
 import {LayerEvent, LayersControlEvent, MapOptions, ResizeEvent} from 'leaflet';
@@ -134,7 +134,7 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
                      @Inject(MAP_QUEST_KEY_RESOLVER_PROVIDER) protected mapKeyResolver: IMqMapKeyResolver,
                      @Inject(DOCUMENT) protected readonly document: Document,
                      protected readonly mqMapService: MqMapService,
-                     @Inject(MQ_SYSTEM_FILES_PROVIDER) @Optional() protected readonly mqSystemFiles: MqSystemFile[],
+                     @Inject(MQ_MAP_REQUIRED_FILES_PROVIDER) @Optional() protected readonly mqSystemFiles: MqSystemFile[],
                      protected readonly mqFileLoaderService: MqFileLoaderService) {
 
     this._mapControl = null;

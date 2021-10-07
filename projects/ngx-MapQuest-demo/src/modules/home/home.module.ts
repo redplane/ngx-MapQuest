@@ -3,13 +3,14 @@ import {NgModule} from '@angular/core';
 import {HomeRoutingModule} from './home-routing.module';
 import {
   LocatorControlModule,
-  MqMapModule,
+  MqMapModule, MqMarkerClusterGroupModule,
   NavigationControlModule,
   SatelliteControlModule,
   SearchControlModule,
   TrafficControlModule
 } from 'ngx-MapQuest';
 import {CommonModule} from '@angular/common';
+import {MqImageLayerModule} from 'ngx-MapQuest';
 
 //#region Routes declaration
 
@@ -28,7 +29,9 @@ import {CommonModule} from '@angular/common';
     NavigationControlModule,
     TrafficControlModule,
     LocatorControlModule,
-    SearchControlModule
+    SearchControlModule,
+    MqImageLayerModule,
+    MqMarkerClusterGroupModule
   ],
   declarations: [
     HomeComponent

@@ -7,7 +7,7 @@ import {MqMapComponent} from './mq-map.component';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {MqFileLoaderService} from '../../services/mq-file-loader.service';
 import {HeatLayerOptions} from '../../models/heat-layer-options';
-import {MQ_MAP_HEAT_FILES_PROVIDER} from '../../constants/injectors';
+import {MQ_HEAT_LAYER_REQUIRED_FILES_PROVIDER} from '../../constants/injectors';
 import {MqSystemFile} from '../../models/system-files/mq-system-file';
 import {MqScriptFile} from '../../models/system-files/mq-script-file';
 
@@ -50,7 +50,7 @@ export class MqHeatLayerDirective implements OnInit, OnDestroy {
 
   public constructor(protected readonly mqMapService: MqMapService,
                      protected readonly mapComponent: MqMapComponent,
-                     @Inject(MQ_MAP_HEAT_FILES_PROVIDER) @Optional() protected readonly mqMapHeatFiles: MqSystemFile[],
+                     @Inject(MQ_HEAT_LAYER_REQUIRED_FILES_PROVIDER) @Optional() protected readonly mqMapHeatFiles: MqSystemFile[],
                      protected readonly mqFileLoaderService: MqFileLoaderService) {
     this._uuid = uuid();
 

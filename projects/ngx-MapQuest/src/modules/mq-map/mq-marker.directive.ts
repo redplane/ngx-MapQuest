@@ -1,14 +1,13 @@
 import {Directive, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {v4 as uuid} from 'uuid';
-import {MqMarkerService} from '../../services/mq-marker.service';
 import {Subject, Subscription} from 'rxjs';
-import {DragEndEvent, LatLngExpression, LeafletEvent, LeafletMouseEvent, Marker, MarkerOptions} from 'leaflet';
+import {DivIcon, DragEndEvent, Icon, LatLngExpression, LeafletEvent, LeafletMouseEvent, Marker, MarkerOptions} from 'leaflet';
 import {MqMapService} from '../../services/mq-map.service';
 import {MqMapComponent} from './mq-map.component';
-import {filter} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 
 declare var L: any;
-declare type MARKER_PROPERTY = 'coordinate' | 'options';
+declare type MARKER_PROPERTY = 'coordinate' | 'icon' | 'opacity' | 'options' | 'zIndexOffset';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -16,42 +15,61 @@ declare type MARKER_PROPERTY = 'coordinate' | 'options';
 })
 export class MqMarkerDirective implements OnInit, OnDestroy {
 
-  //#endregion
-
   //#region Accessors
 
+  // Unique id of component.
   public get uuid(): string {
     return this._uuid;
   }
 
+  // For updating marker coordinate.
   @Input()
   public set coordinate(value: LatLngExpression) {
     this._coordinate = {...value};
+    this._updateMarkerSubject.next('coordinate');
   }
 
-  public get coordinate(): LatLngExpression {
-    return this._coordinate;
-  }
-
+  // For updating marker options.
   @Input()
   public set options(value: MarkerOptions) {
     this._options = {...value};
+    this._icon = value?.icon;
+    this._opacity = value?.opacity;
+    this._zIndexOffset = value?.zIndexOffset;
+
+    this._changingOptions = true;
+    this._updateMarkerSubject.next('options');
   }
 
-  public get options(): MarkerOptions {
-    return this._options;
+  // For updating opacity.
+  @Input()
+  public set opacity(value: number) {
+    this._opacity = value;
+    this._updateMarkerSubject.next('opacity');
+  }
+
+  // For updating icon.
+  @Input()
+  public set icon(value: Icon | DivIcon) {
+    this._icon = value;
+    this._updateMarkerSubject.next('icon');
+  }
+
+  @Input()
+  public set zIndexOffset(value: number) {
+    this._zIndexOffset = value;
+    this._updateMarkerSubject.next('zIndexOffset');
   }
 
   //#endregion
 
   //#region Constructor
 
-  public constructor(protected readonly markerService: MqMarkerService,
-                     protected readonly mqMapService: MqMapService,
+  public constructor(protected readonly mqMapService: MqMapService,
                      protected readonly mapComponent: MqMapComponent) {
     this._uuid = uuid();
 
-    this._updateInstanceSubject = new Subject<{ property: MARKER_PROPERTY, value: any }>();
+    this._updateMarkerSubject = new Subject<MARKER_PROPERTY>();
     this._subscription = new Subscription();
   }
 
@@ -59,6 +77,10 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
   // Id of mq marker.
   private readonly _uuid: string;
+
+  // Whether option is being changed.
+  // This will prevent another property from being update.
+  private _changingOptions: boolean;
 
   // Marker instance.
   private _instance: L.Marker;
@@ -69,11 +91,20 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
   // Option of marker.
   private _options: L.MarkerOptions;
 
+  // Opacity
+  private _opacity: number;
+
+  // Icon
+  private _icon: Icon | DivIcon;
+
+  // Z-index offset
+  private _zIndexOffset: number;
+
   // Subscription watch list.
   private _subscription: Subscription;
 
   // Raise event to update marker instance.
-  private _updateInstanceSubject: Subject<{ property: MARKER_PROPERTY, value: any }>;
+  private _updateMarkerSubject: Subject<MARKER_PROPERTY>;
 
   //#endregion
 
@@ -152,12 +183,11 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
       )
       .subscribe(mapControl => {
         if (!this._instance) {
-          this._instance = L.marker(this.coordinate, this.options);
+          this._instance = L.marker(this._coordinate, this._options);
         }
 
         this._instance.addTo(mapControl);
         this.hookMarkerEvent(this._instance);
-        this.markerService.addMarker(this.uuid, this._instance);
 
         // Hook instance updated event.
         this.hookInstanceUpdateEvent();
@@ -184,24 +214,39 @@ export class MqMarkerDirective implements OnInit, OnDestroy {
 
   protected hookInstanceUpdateEvent(): void {
 
-    const hookInstanceUpdateSubscription = this._updateInstanceSubject
-      .subscribe(({property, value}) => {
-        switch (property) {
+    const hookInstanceUpdateSubscription = this._updateMarkerSubject
+      .pipe(
+        map(changedProperty => this._changingOptions ? 'options' : changedProperty)
+      )
+      .subscribe(changedProperty => {
+        switch (changedProperty) {
+
           case 'coordinate':
-            this._instance.setLatLng(value);
+            this._instance.setLatLng(this._coordinate);
+            break;
+
+          case 'icon':
+            this._instance?.setIcon(this._icon);
+            break;
+
+          case 'opacity':
+            this._instance?.setOpacity(this._opacity);
+            break;
+
+          case 'zIndexOffset':
+            this._instance?.setZIndexOffset(this._zIndexOffset);
             break;
 
           case 'options':
             // Remove the previous instance.
             if (this._instance && this.mapComponent.instance) {
               this._instance.removeFrom(this.mapComponent.instance);
-              this.markerService.deleteMarker(this.uuid);
             }
 
             this._instance = L.marker(this.coordinate, this.options);
             this._instance.addTo(this.mapComponent.instance);
             this.hookMarkerEvent(this._instance);
-            this.markerService.addMarker(this.uuid, this._instance);
+            this._changingOptions = false;
         }
       });
     this._subscription.add(hookInstanceUpdateSubscription);

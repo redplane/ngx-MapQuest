@@ -69,6 +69,16 @@
           [21.203374, 105.826138]
         ]"
                   [options]="{color: 'red'}"></mq-polygon>
+
+      <mq-image-layer [imageUrl]="'http://geology.com/state-map/maps/colorado-county-map.gif'"
+                      [bounds]="[[36.99, -102.05], [37, -109.05], [41, -109.05], [41, -102.05]]"
+                      [options]="{opacity: 0.8}">
+      </mq-image-layer>
+
+      <mq-marker-cluster-group>
+
+      </mq-marker-cluster-group>
+
     </mq-map>
   </div>
 </div>

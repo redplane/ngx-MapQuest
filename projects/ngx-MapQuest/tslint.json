@@ -3,16 +3,16 @@
   "rules": {
     "import-blacklist": [
       true,
-      ["ngx-map-quest"]
+      ["^ngx-MapQuest$"]
     ],
     "directive-selector": [
-      true,
+      false,
       "attribute",
       "lib",
       "camelCase"
     ],
     "component-selector": [
-      true,
+      false,
       "element",
       "lib",
       "kebab-case"

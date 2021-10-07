@@ -10,5 +10,6 @@ export const MAP_QUEST_KEY_RESOLVER_PROVIDER = new InjectionToken<IMqMapKeyResol
 export const MQ_PLACE_SEARCH_SERVICE_PROVIDER = new InjectionToken<IMqPlaceSearchService>('MQ_PLACE_SEARCH_SERVICE_PROVIDER');
 
 // Necessary files provider.
-export const MQ_SYSTEM_FILES_PROVIDER = new InjectionToken<MqSystemFile[]>('MQ_SYSTEM_FILES_PROVIDER');
-export const MQ_MAP_HEAT_FILES_PROVIDER = new InjectionToken<MqSystemFile[]>('MQ_MAP_HEAT_FILES_PROVIDER');
+export const MQ_MAP_REQUIRED_FILES_PROVIDER = new InjectionToken<MqSystemFile[]>('MQ_MAP_REQUIRED_FILES_PROVIDER');
+export const MQ_HEAT_LAYER_REQUIRED_FILES_PROVIDER = new InjectionToken<MqSystemFile[]>('MQ_HEAT_LAYER_REQUIRED_FILES_PROVIDER');
+export const MQ_MARKER_CLUSTER_GROUP_REQUIRED_FILES_PROVIDER = new InjectionToken<MqSystemFile[]>('MQ_MARKER_CLUSTER_GROUP_REQUIRED_FILES_PROVIDER');
