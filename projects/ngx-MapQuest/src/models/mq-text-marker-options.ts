@@ -1,4 +1,4 @@
-import {MQ_TEXT_MARKER_ICON_TYPE, MQ_TEXT_MARKER_POSITION} from 'ngx-MapQuest';
+import {MQ_TEXT_MARKER_ICON_TYPE, MQ_TEXT_MARKER_POSITION} from '../constants/data-types';
 import {MqTextMarkerIconOptions} from './mq-text-marker-icon-options';
 
 export class MqTextMarkerOptions {
