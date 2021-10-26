@@ -1,6 +1,6 @@
 {
-  "name": "ngx-map-quest",
-  "version": "1.0.0",
+  "name": "ngx-MapQuest",
+  "version": "1.0.0-preview-001",
   "devDependencies": {
     "@types/leaflet": "^1.7.0",
     "@types/leaflet.heat": "^0.2.1",
