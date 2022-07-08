@@ -1,8 +1,9 @@
 {
   "HOME_PAGE": {
-
+    "OVERVIEW": "Overview"
   },
   "SIDE_BAR": {
+    "INSTALLATION": "Installation",
     "HOME_MENU_ITEM": "Home",
     "PLACE_SEARCH_ITEM": "Place search"
   },
@@ -31,5 +32,9 @@
     },
 
     "RESULT": "Result"
+  },
+
+  "INSTALLATION_PAGE": {
+    "INSTALLATION": "Installation"
   }
 }

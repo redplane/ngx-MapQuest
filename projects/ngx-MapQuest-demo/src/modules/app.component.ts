@@ -1,15 +1,12 @@
-import {ChangeDetectorRef, Component, ElementRef, HostBinding, Inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import {MessageChannelConstant} from '../constants/message-channel.constant';
-import {MessageEventConstant} from '../constants/message-event.constant';
 import {TranslateService} from '@ngx-translate/core';
 
-
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'body',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -59,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // TODO: Implement side bar menu.
     // // Hook to update page class event in ui channel.
     // this._hookPageBodyUpdateEventSubscription = this.messageBusService
-    //   .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.updatePageClass)
+    //   .hookMessageChannel(MessageChannelNames.ui, MessageEventConstant.updatePageClass)
     //   .subscribe((updatedClass: string) => {
     //
     //     if (!updatedClass) {
@@ -81,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //
     // // Listen to sidebar toggle event in ui channel.
     // this._hookSideBarDisplayMessageSubscription = this.messageBusService
-    //   .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
+    //   .hookMessageChannel(MessageChannelNames.ui, MessageEventConstant.displaySidebar)
     //   .subscribe(shouldSideBarVisible => {
     //     this._shouldSideBarHidden = !shouldSideBarVisible;
     //   });

@@ -3,10 +3,8 @@ import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import {GuardModule} from '../guards/guard.module';
 import {ServiceModule} from '../services/service.module';
-import {ResolveModule} from '../resolves/resolve.module';
-import {MasterLayoutComponent} from './shared/master-layout/master-layout.component';
+import {MainLayoutComponent} from './shared/main-layout/main-layout.component';
 
 //#endregion
 
@@ -16,7 +14,7 @@ import {MasterLayoutComponent} from './shared/master-layout/master-layout.compon
 export const routes: Routes = [
   {
     path: '',
-    component: MasterLayoutComponent,
+    component: MainLayoutComponent,
     children: [
       {
         path: 'place-search',
@@ -25,8 +23,8 @@ export const routes: Routes = [
       },
       {
         path: '',
-        loadChildren: () => import('./home/home.module')
-          .then(m => m.HomeModule)
+        loadChildren: () => import('./pages/home-page/home-page.module')
+          .then(m => m.HomePageModule)
       }
     ]
   }
@@ -43,9 +41,7 @@ export const routes: Routes = [
     HttpClientModule,
 
     // Application modules.
-    GuardModule.forRoot(),
     ServiceModule.forRoot(),
-    ResolveModule.forRoot(),
     RouterModule.forRoot(routes, {enableTracing: false, relativeLinkResolution: 'legacy'})
   ],
   exports: [

@@ -1,0 +1,19 @@
+<div class="title bg-white"
+     [attr.sidebar-collapsed]="sidebarCollapsed">
+  <h1 class="mt-2 mb-4 mx-2 fw-bold"
+      *ngIf="title">
+    <b>{{title | translate}}</b>
+  </h1>
+</div>
+
+<div class="contents">
+  <div class="content mx-3 mb-3"
+       *ngFor="let section of sections; let i = index">
+    <h2>{{i + 1}}. <span class="text-decoration-underline">{{section.title}}</span></h2>
+    <div class="card mx-4">
+      <div class="card-body">
+        {{section.content}}
+      </div>
+    </div>
+  </div>
+</div>

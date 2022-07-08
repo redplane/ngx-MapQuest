@@ -1,14 +1,15 @@
-import {Component, HostBinding, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostBinding, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ProfileViewModel} from '../../../view-models/profile.view-model';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'div[authenticated-layout]',
-  templateUrl: 'master-layout.component.html'
+  templateUrl: 'main-layout.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class MasterLayoutComponent implements OnInit {
+export class MainLayoutComponent implements OnInit {
 
   //#region Properties
 

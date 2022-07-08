@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
-import {MessageEventConstant} from '../../../../constants/message-event.constant';
 import {IMessageBusService, MESSAGE_BUS_SERVICE} from '@message-bus/core';
+import {SidebarCollapseChangedMessage} from '../../../../models/messages/sidebar-collapse-changed.message';
 
 @Component({
   selector: 'ul[id="accordionSidebar"]',
@@ -14,10 +13,10 @@ export class SidebarComponent implements OnInit {
   //#region Properties
 
   // Catch sidebar display message subscription.
-  private _hookSidebarDisplayMessageSubscription: Subscription;
+  private _hookSidebarCollapseChangedSubscription: Subscription;
 
   // Whether sidebar is toggled or not.
-  private _shouldSidebarHidden = true;
+  private __collapsed = true;
 
   // Instance that is used as component class.
   @HostBinding('class')
@@ -25,7 +24,7 @@ export class SidebarComponent implements OnInit {
 
     const defaultClasses = ['navbar-nav', 'bg-gradient-primary', 'sidebar', 'sidebar-dark accordion'];
     let finalClasses = [];
-    if (this._shouldSidebarHidden) {
+    if (this.__collapsed) {
       finalClasses = ['toggled'].concat(defaultClasses);
     } else {
       finalClasses = [...defaultClasses];
@@ -38,7 +37,7 @@ export class SidebarComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject(MESSAGE_BUS_SERVICE) protected messageBusService: IMessageBusService,
+  public constructor(@Inject(MESSAGE_BUS_SERVICE) protected _messageBusService: IMessageBusService,
                      protected readonly _changeDetectorRef: ChangeDetectorRef) {
 
   }
@@ -49,11 +48,14 @@ export class SidebarComponent implements OnInit {
 
   // Called when component is initialized.
   public ngOnInit(): void {
+
+    this._messageBusService.addTypedMessage(new SidebarCollapseChangedMessage(), this.__collapsed);
+
     // Listen to sidebar toggle event in ui channel.
-    this._hookSidebarDisplayMessageSubscription = this.messageBusService
-      .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
-      .subscribe(shouldSideBarVisible => {
-        this._shouldSidebarHidden = !shouldSideBarVisible;
+    this._hookSidebarCollapseChangedSubscription = this._messageBusService
+      .hookTypedMessageChannel(new SidebarCollapseChangedMessage())
+      .subscribe((collapsed: boolean) => {
+        this.__collapsed = collapsed;
         this._changeDetectorRef.markForCheck();
       });
   }
@@ -63,7 +65,7 @@ export class SidebarComponent implements OnInit {
   //#region Methods
 
   public clickSidebar(): void {
-    this.messageBusService.addMessage(MessageChannelConstant.ui, MessageEventConstant.displaySidebar, true);
+    this._messageBusService.addTypedMessage(new SidebarCollapseChangedMessage(), !this.__collapsed);
   }
 
   //#endregion

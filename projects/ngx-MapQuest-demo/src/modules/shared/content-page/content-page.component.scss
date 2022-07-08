@@ -1,0 +1,29 @@
+@import '~startbootstrap-sb-admin-2/scss/_variables.scss';
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '~bootstrap/scss/variables';
+
+content-pages {
+
+  .title {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: #{$sidebar-base-width};
+    z-index: 1;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+
+    &[sidebar-collapsed='true'] {
+      left: #{$sidebar-collapsed-width};
+    }
+  }
+
+  .content {
+    margin-top: calc(#{map-get($spacers, 4)} + #{map-get($spacers, 2)} + #{map-get($display-font-sizes, 1)});
+
+    .card {
+      min-height: 150px;
+    }
+  }
+}
