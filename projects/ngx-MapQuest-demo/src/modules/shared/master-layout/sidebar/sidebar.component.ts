@@ -1,38 +1,31 @@
-import {Component, HostBinding, Inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inject, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../../../constants/message-event.constant';
-import {filter, switchMap} from 'rxjs/operators';
 import {IMessageBusService, MESSAGE_BUS_SERVICE} from '@message-bus/core';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'ul[id="accordionSidebar"]',
-  templateUrl: 'side-bar.component.html'
+  templateUrl: 'sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SideBarComponent implements OnInit {
+export class SidebarComponent implements OnInit {
 
   //#region Properties
 
-  /*
-  * Catch side-bar display message subscription.
-  * */
-  private _hookSideBarDisplayMessageSubscription: Subscription;
+  // Catch sidebar display message subscription.
+  private _hookSidebarDisplayMessageSubscription: Subscription;
 
-  /*
-  * Whether side-bar is toggled or not.
-  * */
-  private _shouldSideBarHidden = true;
+  // Whether sidebar is toggled or not.
+  private _shouldSidebarHidden = true;
 
-  /*
-  * Instance that is used as component class.
-  * */
+  // Instance that is used as component class.
   @HostBinding('class')
   public get hostClass(): string {
 
     const defaultClasses = ['navbar-nav', 'bg-gradient-primary', 'sidebar', 'sidebar-dark accordion'];
     let finalClasses = [];
-    if (this._shouldSideBarHidden) {
+    if (this._shouldSidebarHidden) {
       finalClasses = ['toggled'].concat(defaultClasses);
     } else {
       finalClasses = [...defaultClasses];
@@ -45,7 +38,8 @@ export class SideBarComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject(MESSAGE_BUS_SERVICE) protected messageBusService: IMessageBusService) {
+  public constructor(@Inject(MESSAGE_BUS_SERVICE) protected messageBusService: IMessageBusService,
+                     protected readonly _changeDetectorRef: ChangeDetectorRef) {
 
   }
 
@@ -55,14 +49,12 @@ export class SideBarComponent implements OnInit {
 
   // Called when component is initialized.
   public ngOnInit(): void {
-
-    // TODO: Listen to side bar
-    // Listen to side-bar toggle event in ui channel.
-    this._hookSideBarDisplayMessageSubscription = this.messageBusService
+    // Listen to sidebar toggle event in ui channel.
+    this._hookSidebarDisplayMessageSubscription = this.messageBusService
       .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
       .subscribe(shouldSideBarVisible => {
-        this._shouldSideBarHidden = !shouldSideBarVisible;
-        console.log(this._shouldSideBarHidden);
+        this._shouldSidebarHidden = !shouldSideBarVisible;
+        this._changeDetectorRef.markForCheck();
       });
   }
 

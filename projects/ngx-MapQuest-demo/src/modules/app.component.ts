@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _hookPageBodyUpdateEventSubscription: Subscription;
 
   /*
-  * Catch side-bar display message subscription.
+  * Catch sidebar display message subscription.
   * */
   private _hookSideBarDisplayMessageSubscription: Subscription;
 
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _hostClass: string;
 
   /*
-  * Should side-bar be hidden or not.
+  * Should sidebar be hidden or not.
   * */
   private _shouldSideBarHidden = true;
 
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //     this.elementRef.nativeElement.class = outputHostClass;
     //   });
     //
-    // // Listen to side-bar toggle event in ui channel.
+    // // Listen to sidebar toggle event in ui channel.
     // this._hookSideBarDisplayMessageSubscription = this.messageBusService
     //   .hookMessageChannel(MessageChannelConstant.ui, MessageEventConstant.displaySidebar)
     //   .subscribe(shouldSideBarVisible => {

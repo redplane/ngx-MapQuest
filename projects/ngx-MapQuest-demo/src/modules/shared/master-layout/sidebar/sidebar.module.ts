@@ -1,20 +1,20 @@
 import {NgModule} from '@angular/core';
-import {SideBarComponent} from './side-bar.component';
+import {SidebarComponent} from './sidebar.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
-    declarations: [
-        SideBarComponent
-    ],
+  declarations: [
+    SidebarComponent
+  ],
   imports: [
     TranslateModule,
     RouterModule
   ],
-    exports: [
-        SideBarComponent
-    ]
+  exports: [
+    SidebarComponent
+  ]
 })
-export class SideBarModule {
+export class SidebarModule {
 
 }

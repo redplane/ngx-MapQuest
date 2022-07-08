@@ -53,11 +53,11 @@ export class NavigationBarComponent {
   }
 
   /*
-  * Called when side-bar toggle button is clicked.
+  * Called when sidebar toggle button is clicked.
   * */
   public clickSideBarToggle(): void {
 
-    // Change side-bar visibility to opposite state.
+    // Change sidebar visibility to opposite state.
     this.shouldSidebarVisible = !this.shouldSidebarVisible;
 
     // TODO: Implement message bus.
