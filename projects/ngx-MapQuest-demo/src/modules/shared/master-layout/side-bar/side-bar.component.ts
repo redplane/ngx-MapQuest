@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import {MessageChannelConstant} from '../../../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../../../constants/message-event.constant';
 import {filter, switchMap} from 'rxjs/operators';
-import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_PROVIDER} from 'ngrx-message-bus';
+import {IMessageBusService, MESSAGE_BUS_SERVICE} from '@message-bus/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -45,7 +45,7 @@ export class SideBarComponent implements OnInit {
 
   //#region Constructor
 
-  public constructor(@Inject(MESSAGE_BUS_SERVICE_PROVIDER) protected messageBusService: INgRxMessageBusService) {
+  public constructor(@Inject(MESSAGE_BUS_SERVICE) protected messageBusService: IMessageBusService) {
 
   }
 

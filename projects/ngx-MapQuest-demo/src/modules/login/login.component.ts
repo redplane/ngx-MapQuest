@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {MessageChannelConstant} from '../../constants/message-channel.constant';
 import {MessageEventConstant} from '../../constants/message-event.constant';
 import {AUTHENTICATION_SERVICE_INJECTION_TOKEN, UI_SERVICE_INJECTION_TOKEN} from '../../constants/injection-token.constant';
-import {INgRxMessageBusService, MESSAGE_BUS_SERVICE_PROVIDER} from 'ngrx-message-bus';
+import {IMessageBusService, MESSAGE_BUS_SERVICE} from '@message-bus/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   //#region Constructor
 
   public constructor(@Inject(AUTHENTICATION_SERVICE_INJECTION_TOKEN) protected authenticationService: IAuthenticationService,
-                     @Inject(MESSAGE_BUS_SERVICE_PROVIDER) protected messageBusService: INgRxMessageBusService,
+                     @Inject(MESSAGE_BUS_SERVICE) protected messageBusService: IMessageBusService,
                      public router: Router) {
     this.model = new LoginViewModel();
 

@@ -4,11 +4,19 @@ import {delay, map, mergeMap, retryWhen, tap} from 'rxjs/operators';
 import {DOCUMENT} from '@angular/common';
 import {MqScriptFile, MqSystemFile, MqCssFile} from '../models/system-files';
 
+@Injectable()
 export class MqFileLoaderService {
+
+  //#region Properties
+
+  protected readonly _document: Document;
+
+  //#endregion
 
   //#region Constructor
 
-  public constructor(@Inject(DOCUMENT) protected readonly document: Document) {
+  public constructor(@Inject(DOCUMENT) document: any) {
+    this._document = document;
   }
 
   //#endregion
@@ -27,9 +35,9 @@ export class MqFileLoaderService {
       switch (mqSystemFile.kind) {
         case 'script':
           const mqScriptFile = mqSystemFile as MqScriptFile;
-          htmlElement = this.document.querySelector(`script[src=${CSS.escape(mqScriptFile.src)}]`);
+          htmlElement = this._document.querySelector(`script[src=${CSS.escape(mqScriptFile.src)}]`);
           htmlElementBuilder = () => {
-            const scriptTag = this.document.createElement('script');
+            const scriptTag = this._document.createElement('script');
             scriptTag.src = mqScriptFile.src;
             return scriptTag;
           };
@@ -37,9 +45,9 @@ export class MqFileLoaderService {
 
         case 'css':
           const mqCssFile = mqSystemFile as MqCssFile;
-          htmlElement = this.document.querySelector(`link[href=${CSS.escape(mqCssFile.href)}]`);
+          htmlElement = this._document.querySelector(`link[href=${CSS.escape(mqCssFile.href)}]`);
           htmlElementBuilder = () => {
-            const linkTag = this.document.createElement('link');
+            const linkTag = this._document.createElement('link');
             linkTag.href = mqCssFile.href;
             linkTag.type = 'text/css';
             linkTag.rel = 'stylesheet';
@@ -71,7 +79,7 @@ export class MqFileLoaderService {
         htmlElement.onerror = exception => {
           htmlElement.setAttribute(szDataLoadStatus, 'failed');
         };
-        this.document.head.appendChild(htmlElement);
+        this._document.head.appendChild(htmlElement);
       }
 
 

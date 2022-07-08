@@ -5,7 +5,7 @@ import {AppConfigService} from '../services/implementations/app-config.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../factories/ngx-translate.factory';
 import {HttpClient} from '@angular/common/http';
-import {NgRxMessageBusModule} from 'ngrx-message-bus';
+import {MessageBusModule} from '@message-bus/core';
 import {appConfigServiceFactory} from '../factories/app-setting.factory';
 import {MasterLayoutModule} from './shared/master-layout/master-layout.module';
 
@@ -17,7 +17,7 @@ import {MasterLayoutModule} from './shared/master-layout/master-layout.module';
     AppRouteModule,
 
     // Message bus registration.
-    NgRxMessageBusModule.forRoot(),
+    MessageBusModule.forRoot(),
     MasterLayoutModule,
 
     TranslateModule.forRoot({

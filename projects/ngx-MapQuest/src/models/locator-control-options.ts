@@ -1,11 +1,11 @@
 import {MQ_LOCATOR_CONTROL_POSITION} from '../constants/data-types';
-
+import {Point} from 'leaflet';
 export class LocatorControlOptions {
 
   //#region Constructor
 
   public constructor(public readonly className?: string,
-                     public readonly defaultLocation?: Position,
+                     public readonly defaultLocation?: Point,
                      public readonly enableHighAccuracy: boolean = true,
                      public readonly markerPrimaryColor: string = '#333333',
                      public readonly markerSecondaryColor: string = '#b7b7b7',
