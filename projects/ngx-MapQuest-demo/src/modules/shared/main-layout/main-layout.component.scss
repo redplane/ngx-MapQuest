@@ -1,0 +1,26 @@
+@import '~startbootstrap-sb-admin-2/scss/_variables.scss';
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import '~bootstrap/scss/variables';
+
+:host {
+  min-width: 500px;
+}
+
+ul[id="accordionSidebar"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  @include media-breakpoint-down(md) {
+    &.sidebar.toggled {
+      width: #{$sidebar-collapsed-width} !important;
+    }
+
+  }
+}
+
+div[id="content-wrapper"] {
+}

@@ -19,6 +19,18 @@ content-pages {
     }
   }
 
+  .contents {
+    padding-left: #{$sidebar-base-width};
+
+    &[sidebar-collapsed='true'] {
+      padding-left: #{$sidebar-collapsed-width};
+    }
+
+    //@include media-breakpoint-down(md) {
+    //  padding-left: #{$sidebar-collapsed-width};
+    //}
+  }
+
   .content {
     margin-top: calc(#{map-get($spacers, 4)} + #{map-get($spacers, 2)} + #{map-get($display-font-sizes, 1)});
 

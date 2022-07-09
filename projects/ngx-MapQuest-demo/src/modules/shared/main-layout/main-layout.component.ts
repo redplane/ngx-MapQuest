@@ -3,9 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {ProfileViewModel} from '../../../view-models/profile.view-model';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'div[authenticated-layout]',
   templateUrl: 'main-layout.component.html',
+  styleUrls: ['main-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
