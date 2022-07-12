@@ -11,18 +11,24 @@
 <hr class="sidebar-divider my-0">
 
 <!--Home-->
-<li class="nav-item active">
+<li class="nav-item"
+    [routerLink]="['/']"
+    [routerLinkActive]="'active'"
+    [routerLinkActiveOptions]="{exact: true}">
   <a class="nav-link"
      [routerLink]="['/']">
     <i class="fas fa-home"></i>
-    <span>{{'SIDE_BAR.HOME_MENU_ITEM' | translate}}</span></a>
+    <span>{{'SIDEBAR.HOME_MENU_ITEM' | translate}}</span></a>
 </li>
 
-<!--Place search-->
-<li class="nav-item">
-  <a class="nav-link" [routerLink]="['/place-search']">
+<!--Examples-->
+<li class="nav-item"
+    [routerLink]="['/components']"
+    [routerLinkActive]="'active'">
+  <a class="nav-link"
+     [routerLink]="['/components']" >
     <i class="fas fa-fw fa-chart-area"></i>
-    <span>{{'SIDE_BAR.PLACE_SEARCH_ITEM' | translate}}</span></a>
+    <span>{{'SIDEBAR.COMPONENTS' | translate}}</span></a>
 </li>
 
 <!-- Divider -->

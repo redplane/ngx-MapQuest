@@ -22,6 +22,16 @@ export const routes: Routes = [
           .then(m => m.PlaceSearchDemoModule)
       },
       {
+        path: 'components',
+        loadChildren: () => import('./pages/components-page/components-page.module')
+          .then(m => m.ComponentsPageModule)
+      },
+      {
+        path: 'component',
+        loadChildren: () => import('./pages/component-page/component-page.module')
+          .then(m => m.ComponentPageModule)
+      },
+      {
         path: '',
         loadChildren: () => import('./pages/home-page/home-page.module')
           .then(m => m.HomePageModule)

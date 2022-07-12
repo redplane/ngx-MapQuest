@@ -4,7 +4,7 @@
 @import "~bootstrap/scss/mixins";
 @import '~bootstrap/scss/variables';
 
-content-pages {
+:host {
 
   .title {
     position: fixed;
@@ -22,20 +22,20 @@ content-pages {
   .contents {
     padding-top: calc(#{map-get($display-font-sizes, 1)});
     padding-left: #{$sidebar-base-width};
+    min-height: 100%;
 
     &[sidebar-collapsed='true'] {
       padding-left: #{$sidebar-collapsed-width};
     }
   }
+}
 
-  .content {
+.card.example {
+  height: 250px;
 
-    &[index='0'] {
-      padding-top: calc(#{map-get($display-font-sizes, 1)});
-    }
-
-    .card {
-      min-height: 150px;
-    }
+  .card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

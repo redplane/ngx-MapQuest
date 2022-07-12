@@ -2,10 +2,19 @@
   "HOME_PAGE": {
     "OVERVIEW": "Overview"
   },
-  "SIDE_BAR": {
+  "SIDEBAR": {
     "INSTALLATION": "Installation",
     "HOME_MENU_ITEM": "Home",
-    "PLACE_SEARCH_ITEM": "Place search"
+    "PLACE_SEARCH_ITEM": "Place search",
+    "COMPONENTS": "Components"
+  },
+  "COMPONENT_PAGE": {
+    "PROPERTIES": "Properties",
+    "PROPERTY": "Property",
+    "DESCRIPTION": "Description",
+    "DEFAULT_VALUE": "Default value",
+    "EVENTS": "Events",
+    "NAME": "Name"
   },
 
   "PLACE_SEARCH_PAGE": {
@@ -36,5 +45,9 @@
 
   "INSTALLATION_PAGE": {
     "INSTALLATION": "Installation"
+  },
+
+  "EXAMPLES": {
+    "EXAMPLES": "Examples"
   }
 }

@@ -8,8 +8,9 @@
 
 <div class="contents" [attr.sidebar-collapsed]="sidebarCollapsed">
   <div class="content mx-3 mb-3"
+       [attr.index]="i"
        *ngFor="let section of sections; let i = index">
-    <h2>{{i + 1}}. <span class="text-decoration-underline">{{section.title}}</span></h2>
+    <h2><span class="fw-bold">{{i + 1}}</span>. <span class="text-decoration-underline">{{section.title}}</span></h2>
     <div class="card mx-4">
       <div class="card-body">
         {{section.content}}
