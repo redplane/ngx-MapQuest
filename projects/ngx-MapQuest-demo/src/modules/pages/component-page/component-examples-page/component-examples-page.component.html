@@ -1,0 +1,24 @@
+<div class="px-4 mb-3"
+     *ngFor="let useCase of component.useCases; let i = index">
+  <h2>
+    <span class="fw-bold">{{i + 1}}</span>.
+    <span class="text-decoration-underline">
+      {{useCase.title}}
+    </span>
+  </h2>
+  <div class="card">
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div [innerHTML]="useCase.content"></div>
+        </div>
+        <div class="col-md-6">
+          {{useCase.codeUrl}}
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

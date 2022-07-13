@@ -14,7 +14,9 @@
     "DESCRIPTION": "Description",
     "DEFAULT_VALUE": "Default value",
     "EVENTS": "Events",
-    "NAME": "Name"
+    "NAME": "Name",
+    "APIS": "Api(s)",
+    "EXAMPLES": "Examples"
   },
 
   "PLACE_SEARCH_PAGE": {

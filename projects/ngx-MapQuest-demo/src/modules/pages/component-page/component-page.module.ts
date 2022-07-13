@@ -5,12 +5,14 @@ import {CommonModule} from '@angular/common';
 import {COMPONENT_PAGE_SERVICE} from '../../../constants/injectors';
 import {ComponentPageService} from './component-page.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     ComponentPageRoutingModule,
     CommonModule,
-    TranslateModule
+    TranslateModule,
+    RouterModule
   ],
   declarations: [
     ComponentPageComponent

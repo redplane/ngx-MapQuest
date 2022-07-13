@@ -19,9 +19,3 @@
     padding-left: #{$sidebar-collapsed-width};
   }
 }
-
-:host .properties {
-  table tbody tr th {
-    width: 250px;
-  }
-}

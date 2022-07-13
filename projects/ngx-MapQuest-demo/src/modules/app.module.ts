@@ -1,14 +1,14 @@
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRouteModule} from './app-routing.module';
-import {AppConfigService} from '../services/implementations/app-config.service';
+import {AppSettingsService} from '../services/implementations/app-settings.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../factories/ngx-translate.factory';
 import {HttpClient} from '@angular/common/http';
 import {MessageBusModule} from '@message-bus/core';
-import {appConfigServiceFactory} from '../factories/app-setting.factory';
+import {appSettingsServiceFactory} from '../factories/app-setting.factory';
 import {MainLayoutModule} from './shared/main-layout/main-layout.module';
-import {ContentPageModule} from './shared/content-page/content-page.module';
+import {APP_SETTINGS_SERVICE} from '../constants/injectors';
 
 //#region Module declaration
 
@@ -30,12 +30,15 @@ import {ContentPageModule} from './shared/content-page/content-page.module';
     })
   ],
   providers: [
-    AppConfigService,
+    {
+      provide: APP_SETTINGS_SERVICE,
+      useClass: AppSettingsService
+    },
     {
       provide: APP_INITIALIZER,
-      useFactory: appConfigServiceFactory,
+      useFactory: appSettingsServiceFactory,
       multi: true,
-      deps: [AppConfigService]
+      deps: [APP_SETTINGS_SERVICE]
     }
   ],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
-import {AppConfigService} from '../services/implementations/app-config.service';
+import {IAppSettingsService} from '../services/interfaces/app-settings-service.interface';
 
-export function appConfigServiceFactory(appConfigService: AppConfigService) {
-  return () => appConfigService.loadSettingsAsync();
+export function appSettingsServiceFactory(appSettingsService: IAppSettingsService) {
+  return () => appSettingsService.getSettingsAsync();
 }
 

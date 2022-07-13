@@ -1,7 +1,4 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {AccountService} from './implementations/account.service';
-import {AuthenticationService} from './implementations/authentication.service';
-import {UiService} from './implementations/ui.service';
 import {MqMapKeyResolver} from './implementations/mq-map-key.resolver';
 import {MarkerStorageService} from './implementations/marker-storage.service';
 import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-MapQuest';

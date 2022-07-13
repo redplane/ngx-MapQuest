@@ -7,81 +7,25 @@
     <h1 class="fw-bold">{{component.title}}</h1>
   </div>
 
-  <div class="px-4 mb-3 properties">
-    <h2>
-      <span class="fw-bold">1</span>.
-      <span class="text-decoration-underline">
-          {{'COMPONENT_PAGE.PROPERTIES' | translate}}
-        </span>
-    </h2>
-    <div class="card">
-      <div class="card-body">
-
-        <ng-container *ngFor="let property of component.properties">
-          <table class="table table-bordered table-sm">
-            <thead>
-            <tr class="border-info">
-              <th colspan="2" class="text-center">{{property.name}}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th>{{'COMPONENT_PAGE.DESCRIPTION' | translate}}</th>
-              <td>{{property.description}}</td>
-            </tr>
-            <tr>
-              <th>{{'COMPONENT_PAGE.DEFAULT_VALUE' | translate}}</th>
-              <td>{{property.defaultValue}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </ng-container>
-
-      </div>
-    </div>
+  <div class="px-4 mb-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link"
+           [routerLink]="['/component']"
+           [routerLinkActive]="'active'"
+           [routerLinkActiveOptions]="{exact: true}">
+          {{'COMPONENT_PAGE.APIS' | translate}}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"
+           [routerLink]="['/component/examples']"
+           [routerLinkActive]="'active'">
+          {{'COMPONENT_PAGE.EXAMPLES' | translate}}
+        </a>
+      </li>
+    </ul>
   </div>
-
-  <div class="px-4 mb-3 properties">
-    <h2>
-      <span class="fw-bold">2</span>.
-      <span class="text-decoration-underline">
-          {{'COMPONENT_PAGE.EVENTS' | translate}}
-        </span>
-    </h2>
-    <div class="card">
-      <div class="card-body">
-        <ng-container *ngFor="let event of component.events">
-          <table class="table table-bordered table-sm">
-            <thead>
-            <tr class="border-info">
-              <th colspan="4" class="text-center">{{event.name}}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th>{{'COMPONENT_PAGE.DESCRIPTION' | translate}}</th>
-              <td colspan="2">{{event.description}}</td>
-              <td></td>
-            </tr>
-            <tr>
-              <th [rowSpan]="event.properties.length + 1" class="align-middle">
-                <ng-container>{{'COMPONENT_PAGE.PROPERTIES' | translate}}</ng-container>
-              </th>
-              <th class="text-center" [style.width.px]="100">{{'COMPONENT_PAGE.NAME' | translate}}</th>
-              <th class="text-center">{{'COMPONENT_PAGE.DESCRIPTION' | translate}}</th>
-              <th class="text-center" [style.width.px]="50">{{'COMPONENT_PAGE.DEFAULT_VALUE' | translate}}</th>
-            </tr>
-            <tr *ngFor="let property of event.properties; let i = index">
-              <td>{{property.name}}</td>
-              <td>{{property.description}}</td>
-              <td>{{property.defaultValue}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </ng-container>
-
-      </div>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 
 </div>

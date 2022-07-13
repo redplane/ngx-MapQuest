@@ -5,7 +5,19 @@ import {ComponentPageComponent} from './component-page.component';
 const routes: Routes = [
   {
     path: '',
-    component: ComponentPageComponent
+    component: ComponentPageComponent,
+    children: [
+      {
+        path: 'examples',
+        loadChildren: () => import('./component-examples-page/component-examples-page.module')
+          .then(m => m.ComponentExamplesPageModule)
+      },
+      {
+        path: '',
+        loadChildren: () => import('./component-apis-page/component-apis-page.module')
+          .then(m => m.ComponentApisPageModule)
+      }
+    ]
   }
 ];
 
