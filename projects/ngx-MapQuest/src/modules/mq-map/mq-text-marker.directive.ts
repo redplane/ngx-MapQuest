@@ -11,7 +11,6 @@ declare var L: any;
 declare type MARKER_PROPERTY = 'coordinate' | 'options';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: 'mq-map mq-text-marker'
 })
 export class MqTextMarkerDirective implements OnInit, OnDestroy {

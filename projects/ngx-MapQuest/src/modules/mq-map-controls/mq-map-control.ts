@@ -1,4 +1,4 @@
-import {Input, OnDestroy, OnInit} from '@angular/core';
+import {Directive, Input, OnDestroy, OnInit} from '@angular/core';
 import {cloneDeep} from 'lodash-es';
 import {MqMapComponent} from '../mq-map/mq-map.component';
 import {Subject, Subscription} from 'rxjs';
@@ -7,6 +7,9 @@ import {debounceTime} from 'rxjs/operators';
 
 declare var L: any;
 
+@Directive({
+  selector: 'mq-map mq-map-control'
+})
 export abstract class MqMapControl<T> implements OnInit, OnDestroy {
 
   //#region Properties

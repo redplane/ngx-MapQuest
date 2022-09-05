@@ -15,7 +15,6 @@ declare var L: any;
 declare type HEAT_LAYER_PROPERTY = 'options' | 'coordinates';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: 'mq-map mq-heat-layer'
 })
 export class MqHeatLayerDirective implements OnInit, OnDestroy {

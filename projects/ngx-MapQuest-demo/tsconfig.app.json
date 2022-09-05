@@ -3,15 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
     "baseUrl": "./",
-    "types": [],
-    "paths": {
-      "ngx-MapQuest": [
-        "../ngx-MapQuest/src/public-api.ts"
-      ],
-      "ngx-MapQuest/*": [
-        "../ngx-MapQuest/src/public-api.ts"
-      ]
-    }
+    "types": []
   },
   "exclude": [
     "test.ts",
