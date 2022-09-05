@@ -9,7 +9,7 @@ import {
 } from '../constants/injection-token.constant';
 import {MqMapKeyResolver} from './implementations/mq-map-key.resolver';
 import {MarkerStorageService} from './implementations/marker-storage.service';
-import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-MapQuest';
+import {MAP_QUEST_KEY_RESOLVER_PROVIDER} from 'ngx-map-quest';
 import {TextMarkerStorageService} from './implementations/text-marker-storage.service';
 import {HeatLayerPointService} from './implementations/heat-layer-point.service';
 import {MarkerClusterGroupStorageService} from './implementations/marker-cluster-group-storage.service';

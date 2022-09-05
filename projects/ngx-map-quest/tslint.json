@@ -3,7 +3,7 @@
   "rules": {
     "import-blacklist": [
       true,
-      ["^ngx-MapQuest$"]
+      ["^ngx-map-quest$"]
     ],
     "directive-selector": [
       false,

@@ -1,5 +1,6 @@
 //#region Imports
 const path = require('path');
+const environment = require('dotenv');
 const childProcess = require('child_process');
 const cpx = require('cpx');
 
@@ -8,7 +9,7 @@ const cpx = require('cpx');
 //#region Properties
 
 // Name of library folder.
-exports.LIBRARY_FOLDER_NAME = 'ngx-MapQuest';
+exports.LIBRARY_FOLDER_NAME = 'ngx-map-quest';
 
 //#endregion
 
@@ -57,8 +58,14 @@ exports.getLibraryFolderPath = function (root) {
 
 // Build the package
 exports.build  = function(root) {
+
   // Build the library.
-  childProcess.execSync(`npx ng-packagr -p projects/${exports.LIBRARY_FOLDER_NAME}/ng-package.json`, {cwd: root});
+  childProcess.execSync(`node ./node_modules/@angular/cli/bin/ng build ${exports.LIBRARY_FOLDER_NAME} -c production`, {
+    cwd: root,
+    encoding: 'utf-8'
+  });
+
+
 }
 
 

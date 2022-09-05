@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { IMqMapKeyResolver } from 'ngx-MapQuest';
+import { IMqMapKeyResolver } from 'ngx-map-quest';
 import {Observable, of} from 'rxjs';
 
 @Injectable()
