@@ -8,9 +8,9 @@ import {
   SatelliteControlModule,
   SearchControlModule,
   TrafficControlModule
-} from 'ngx-MapQuest';
+} from 'ngx-map-quest';
 import {CommonModule} from '@angular/common';
-import {MqImageLayerModule} from 'ngx-MapQuest';
+import {MqImageLayerModule} from 'ngx-map-quest';
 
 //#region Routes declaration
 

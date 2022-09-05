@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-MapQuest-demo": {
-      "root": "projects/ngx-MapQuest-demo/",
-      "sourceRoot": "projects/ngx-MapQuest-demo/src",
+    "ngx-map-quest-demo": {
+      "root": "projects/ngx-map-quest-demo/",
+      "sourceRoot": "projects/ngx-map-quest-demo/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
@@ -13,18 +13,18 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "preserveSymlinks": true,
-            "outputPath": "dist/ngx-MapQuest-demo",
-            "index": "projects/ngx-MapQuest-demo/src/index.html",
-            "main": "projects/ngx-MapQuest-demo/src/main.ts",
-            "polyfills": "projects/ngx-MapQuest-demo/src/polyfills.ts",
-            "tsConfig": "projects/ngx-MapQuest-demo/tsconfig.app.json",
+            "outputPath": "dist/ngx-map-quest-demo",
+            "index": "projects/ngx-map-quest-demo/src/index.html",
+            "main": "projects/ngx-map-quest-demo/src/main.ts",
+            "polyfills": "projects/ngx-map-quest-demo/src/polyfills.ts",
+            "tsConfig": "projects/ngx-map-quest-demo/tsconfig.app.json",
             "assets": [
-              "projects/ngx-MapQuest-demo/src/favicon.ico",
-              "projects/ngx-MapQuest-demo/src/assets",
-              "projects/ngx-MapQuest-demo/src/netlify.toml"
+              "projects/ngx-map-quest-demo/src/favicon.ico",
+              "projects/ngx-map-quest-demo/src/assets",
+              "projects/ngx-map-quest-demo/src/netlify.toml"
             ],
             "styles": [
-              "projects/ngx-MapQuest-demo/src/styles/styles.scss"
+              "projects/ngx-map-quest-demo/src/styles/styles.scss"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
@@ -44,8 +44,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-MapQuest-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-MapQuest-demo/src/environments/environment.prod.ts"
+                  "replace": "projects/ngx-map-quest-demo/src/environments/environment.ts",
+                  "with": "projects/ngx-map-quest-demo/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -67,8 +67,8 @@
             "dev": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-MapQuest-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-MapQuest-demo/src/environments/environment.dev.ts"
+                  "replace": "projects/ngx-map-quest-demo/src/environments/environment.ts",
+                  "with": "projects/ngx-map-quest-demo/src/environments/environment.dev.ts"
                 }
               ]
             }
@@ -78,37 +78,37 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-MapQuest-demo:build"
+            "browserTarget": "ngx-map-quest-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-MapQuest-demo:build:production"
+              "browserTarget": "ngx-map-quest-demo:build:production"
             },
             "dev": {
-              "browserTarget": "ngx-MapQuest-demo:build:dev"
+              "browserTarget": "ngx-map-quest-demo:build:dev"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-MapQuest-demo:build"
+            "browserTarget": "ngx-map-quest-demo:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-MapQuest-demo/src/test.ts",
-            "polyfills": "projects/ngx-MapQuest-demo/src/polyfills.ts",
-            "tsConfig": "projects/ngx-MapQuest-demo/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-MapQuest-demo/karma.conf.js",
+            "main": "projects/ngx-map-quest-demo/src/test.ts",
+            "polyfills": "projects/ngx-map-quest-demo/src/polyfills.ts",
+            "tsConfig": "projects/ngx-map-quest-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-map-quest-demo/karma.conf.js",
             "styles": [
-              "projects/ngx-MapQuest-demo/src/styles/styles.scss"
+              "projects/ngx-map-quest-demo/src/styles/styles.scss"
             ],
             "scripts": [],
             "assets": [
-              "projects/ngx-MapQuest-demo/src/favicon.ico",
-              "projects/ngx-MapQuest-demo/src/assets"
+              "projects/ngx-map-quest-demo/src/favicon.ico",
+              "projects/ngx-map-quest-demo/src/assets"
             ]
           }
         },
@@ -116,8 +116,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-MapQuest-demo/tsconfig.app.json",
-              "projects/ngx-MapQuest-demo/tsconfig.spec.json"
+              "projects/ngx-map-quest-demo/tsconfig.app.json",
+              "projects/ngx-map-quest-demo/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -126,27 +126,27 @@
         }
       }
     },
-    "ngx-MapQuest-demo-e2e": {
-      "root": "projects/ngx-MapQuest-demo-e2e/",
+    "ngx-map-quest-demo-e2e": {
+      "root": "projects/ngx-map-quest-demo-e2e/",
       "projectType": "application",
       "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-MapQuest-demo-e2e/protractor.conf.js",
-            "devServerTarget": "ngx-MapQuest-demo:serve"
+            "protractorConfig": "projects/ngx-map-quest-demo-e2e/protractor.conf.js",
+            "devServerTarget": "ngx-map-quest-demo:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-MapQuest-demo:serve:production"
+              "devServerTarget": "ngx-map-quest-demo:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "projects/ngx-MapQuest-demo-e2e/tsconfig.e2e.json",
+            "tsConfig": "projects/ngx-map-quest-demo-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -154,39 +154,38 @@
         }
       }
     },
-    "ngx-MapQuest": {
+    "ngx-map-quest": {
       "projectType": "library",
-      "root": "projects/ngx-MapQuest",
-      "sourceRoot": "projects/ngx-MapQuest/src",
-      "prefix": "lib",
+      "root": "projects/ngx-map-quest",
+      "sourceRoot": "projects/ngx-map-quest/src",
       "architect": {
         "build": {
-          "outputPath": "dist/ngx-MapQuest",
+          "outputPath": "dist/ngx-map-quest",
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ngx-MapQuest/tsconfig.lib.json",
-            "project": "projects/ngx-MapQuest/ng-package.json"
+            "tsConfig": "projects/ngx-map-quest/tsconfig.lib.json",
+            "project": "projects/ngx-map-quest/ng-package.json",
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-MapQuest/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-map-quest/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-MapQuest/src/test.ts",
-            "tsConfig": "projects/ngx-MapQuest/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-MapQuest/karma.conf.js"
+            "main": "projects/ngx-map-quest/src/test.ts",
+            "tsConfig": "projects/ngx-map-quest/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-map-quest/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-MapQuest/tsconfig.lib.json",
-              "projects/ngx-MapQuest/tsconfig.spec.json"
+              "projects/ngx-map-quest/tsconfig.lib.json",
+              "projects/ngx-map-quest/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -196,5 +195,5 @@
       }
     }
   },
-  "defaultProject": "ngx-MapQuest-demo"
+  "defaultProject": "ngx-map-quest-demo"
 }

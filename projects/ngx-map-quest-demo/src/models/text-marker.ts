@@ -1,4 +1,4 @@
-import {MqTextMarkerOptions} from 'ngx-MapQuest';
+import {MqTextMarkerOptions} from 'ngx-map-quest';
 
 export class TextMarker {
 
