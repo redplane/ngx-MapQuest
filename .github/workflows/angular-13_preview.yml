@@ -35,6 +35,6 @@ jobs:
       - run: echo "//$NPM_REGISTRY/:_authToken=$NPM_ACCESS_TOKEN"
 
       # Publish the library
-      - run: node ./node_modules/@angular/cli/bin/ng publish ./dist/ngx-map-quest
+      - run: npm publish ./dist/ngx-map-quest
 
 
