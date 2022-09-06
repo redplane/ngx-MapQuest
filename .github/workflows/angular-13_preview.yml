@@ -7,9 +7,6 @@ on:
   pull_request:
     branches: [ "angular-13/preview" ]
 
-env:
-  IS_PREVIEW: true
-
 jobs:
 
   build:
@@ -30,9 +27,14 @@ jobs:
       - run: npm install
 
       # Build the library
-      - run: npm run build:lib
+      - run: node ./node_modules/@angular/cli/bin/ng build ngx-map-quest -c production
+
+      # Generate .npmrc file
+      - run: echo "registry=https://$NPM_REGISTRY/" >> "./dist/ngx-map-quest/.npmrc"
+      - run: echo "always-auth=true" >> "./dist/ngx-map-quest/.npmrc"
+      - run: echo "//$NPM_REGISTRY/:_authToken=$NPM_ACCESS_TOKEN"
 
       # Publish the library
-      - run: npm run publish
+      - run: node ./node_modules/@angular/cli/bin/ng publish ./dist/ngx-map-quest
 
 
