@@ -11,7 +11,6 @@ declare var L: any;
 declare type MARKER_PROPERTY = 'coordinate' | 'icon' | 'opacity' | 'options' | 'zIndexOffset';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: 'mq-map mq-marker, mq-marker-cluster-group mq-marker'
 })
 export class MqMarkerDirective implements OnInit, OnDestroy {

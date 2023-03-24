@@ -14,9 +14,9 @@ export class LocatorControlDirective extends MqMapControl<LocatorControlOptions>
 
   //#region Constructor
 
-  public constructor(protected readonly mqMap: MqMapComponent,
-                     protected readonly mqMapService: MqMapService) {
-    super(mqMap, mqMapService);
+  public constructor(protected readonly _mqMap: MqMapComponent,
+                     protected readonly _mqMapService: MqMapService) {
+    super(_mqMap, _mqMapService);
   }
 
   //#endregion

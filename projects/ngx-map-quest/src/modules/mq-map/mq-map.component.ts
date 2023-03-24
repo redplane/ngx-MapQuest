@@ -32,7 +32,6 @@ declare var L: any;
 //@dynamic must be used.
 /** @dynamic */
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'mq-map',
   template: `
     <ng-content></ng-content>`,
@@ -129,6 +128,9 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
   @Output()
   public readonly moveEnd: EventEmitter<Event> = new EventEmitter<Event>();
 
+  @Output()
+  public readonly initializedEvent: EventEmitter<MqMapComponent> = new EventEmitter<MqMapComponent>();
+
   //#endregion
 
   //#region Constructor
@@ -193,6 +195,7 @@ export class MqMapComponent implements OnInit, AfterViewInit, AfterContentInit {
 
                     this._mapControl = mapControl;
                     this.mqMapService.markMapAsLoaded(this._mapControl);
+                    this.initializedEvent.emit(this);
                   })
                 );
             })
