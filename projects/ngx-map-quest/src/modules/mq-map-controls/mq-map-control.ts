@@ -46,8 +46,8 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
 
   //#region Constructor
 
-  protected constructor(protected readonly mqMap: MqMapComponent,
-                        protected readonly mqMapService: MqMapService) {
+  protected constructor(protected readonly _mqMap: MqMapComponent,
+                        protected readonly _mqMapService: MqMapService) {
     this._optionChangedSubject = new Subject<void>();
     this._subscription = new Subscription();
   }
@@ -58,7 +58,7 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
 
-    const hookMapLoadedEventSubscription = this.mqMapService
+    const hookMapLoadedSubscription = this._mqMapService
       .mapLoadedEvent
       .subscribe(mapControl => {
         if (this._instance && mapControl) {
@@ -69,15 +69,15 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
         mapControl.addControl(this._instance);
         this.hookOptionChangedEvent();
       });
-    this._subscription.add(hookMapLoadedEventSubscription);
+    this._subscription.add(hookMapLoadedSubscription);
 
   }
 
   public ngOnDestroy(): void {
     this._subscription?.unsubscribe();
 
-    if (this._instance && this.mqMap.instance) {
-      this.mqMap.instance.removeControl(this._instance);
+    if (this._instance && this._mqMap.instance) {
+      this._mqMap.instance.removeControl(this._instance);
       this._instance = null;
     }
   }
@@ -97,12 +97,12 @@ export abstract class MqMapControl<T> implements OnInit, OnDestroy {
         debounceTime(200)
       )
       .subscribe(() => {
-        if (this._instance && this.mqMap.instance) {
-          this.mqMap.instance.removeControl(this._instance);
+        if (this._instance && this._mqMap.instance) {
+          this._mqMap.instance.removeControl(this._instance);
         }
 
         this._instance = this.addControl();
-        this.mqMap.instance.addControl(this._instance);
+        this._mqMap.instance.addControl(this._instance);
       });
     this._subscription.add(this._hookOptionChangedSubscription);
   }
