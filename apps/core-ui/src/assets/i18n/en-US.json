@@ -1,0 +1,33 @@
+{
+  "HOME_PAGE": {},
+  "SIDE_BAR": {
+    "HOME_MENU_ITEM": "Home",
+    "PLACE_SEARCH_ITEM": "Place search"
+  },
+
+  "PLACE_SEARCH_PAGE": {
+    "LOCATION": "Location",
+    "CATEGORY": "Category",
+    "SORT": "Sort",
+    "FEEDBACK": "Feedback",
+    "CIRCLE": "Circle",
+    "BOUNDING_BOX": "Bounding box",
+    "CORRIDOR": "Corridor",
+    "PAGE": "Page",
+    "PAGE_SIZE": "Page size",
+    "KEYWORD": "Keyword",
+    "SUBMIT_BUTTON": "Submit",
+
+    "FEEDBACK_OPTIONS": {
+      "YES": "Yes",
+      "NO": "No"
+    },
+
+    "SORT_OPTIONS": {
+      "RELEVANCE": "Relevance",
+      "DISTANCE": "Distance"
+    },
+
+    "RESULT": "Result"
+  }
+}

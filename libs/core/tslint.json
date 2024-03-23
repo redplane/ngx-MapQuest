@@ -1,0 +1,10 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "import-blacklist": [true, ["^ngx-map-quest$"]],
+    "directive-selector": [false, "attribute", "lib", "camelCase"],
+    "component-selector": [false, "element", "lib", "kebab-case"],
+    "no-output-rename": false,
+    "directive-class-suffix": false
+  }
+}

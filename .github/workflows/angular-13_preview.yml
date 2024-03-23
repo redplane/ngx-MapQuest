@@ -3,12 +3,11 @@
 name: Angular 13 [Preview]
 on:
   push:
-    branches: [ "angular-13/preview" ]
+    branches: ['angular-13/preview']
   pull_request:
-    branches: [ "angular-13/preview" ]
+    branches: ['angular-13/preview']
 
 jobs:
-
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -36,5 +35,3 @@ jobs:
 
       # Publish the library
       - run: npm publish ./dist/ngx-map-quest
-
-

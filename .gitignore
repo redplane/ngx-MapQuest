@@ -4,3 +4,4 @@
 /dist
 /.angular
 /.env
+/apps/core-ui/src/assets/appsettings.development.json

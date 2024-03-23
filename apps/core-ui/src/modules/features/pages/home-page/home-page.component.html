@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Coordinate</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let marker of markers">
+          <td>{{ marker.coordinate | json }}</td>
+          <td [ngSwitch]="markerIdToAvailability[marker.id]">
+            <a
+              *ngSwitchCase="true"
+              href="#"
+              class="text-danger"
+              (click)="$event.preventDefault(); deleteMarker(marker)"
+            >
+              <span class="fa fa-trash"></span>
+            </a>
+            <a
+              *ngSwitchDefault
+              href="#"
+              class="text-info"
+              (click)="$event.preventDefault(); restoreMarker(marker)"
+            >
+              <span class="fa fa-refresh"></span>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-6">
+    <mq-map [options]="mqMapOptions">
+      <mq-control-satellite></mq-control-satellite>
+
+      <mq-control-navigation></mq-control-navigation>
+
+      <mq-control-traffic></mq-control-traffic>
+
+      <mq-control-locator></mq-control-locator>
+
+      <mq-control-search></mq-control-search>
+
+      <ng-container *ngFor="let marker of markers">
+        <mq-marker
+          *ngIf="markerIdToAvailability[marker.id]"
+          [coordinate]="marker.coordinate"
+          [options]="marker.options"
+          (mq-click)="log('Marker ' + marker.id + ' clicked')"
+          (mq-double-click)="log('Marker ' + marker.id + ' doubly clicked')"
+        >
+          <mq-marker-popup [content]="'<b>hello world</b>'"></mq-marker-popup>
+        </mq-marker>
+      </ng-container>
+
+      <!--Text marker-->
+      <mq-text-marker
+        *ngFor="let textMarker of textMarkers"
+        [coordinate]="textMarker.coordinate"
+        [options]="textMarker.options"
+      >
+      </mq-text-marker>
+
+      <!--      <mq-heat-layer [coordinates]="heatLayerPoints"></mq-heat-layer>-->
+
+      <mq-circle
+        [coordinate]="{ lat: 21.180002, lng: 106.059967 }"
+        [options]="{ radius: 10000 }"
+      ></mq-circle>
+
+      <mq-polygon
+        [points]="[
+          [21.075062, 105.758304],
+          [21.087864, 105.8636543],
+          [21.195344, 105.870197],
+          [21.203374, 105.826138]
+        ]"
+        [options]="{ color: 'red' }"
+      ></mq-polygon>
+
+      <mq-image-layer
+        [imageUrl]="'http://geology.com/state-map/maps/colorado-county-map.gif'"
+        [bounds]="[
+          [36.99, -102.05],
+          [37, -109.05],
+          [41, -109.05],
+          [41, -102.05]
+        ]"
+        [options]="{ opacity: 0.8 }"
+      >
+      </mq-image-layer>
+
+      <mq-marker-cluster-group>
+        <mq-marker
+          *ngFor="let clusteredMarker of clusteredMarkers"
+          [coordinate]="clusteredMarker.coordinate"
+          [options]="clusteredMarker.options"
+        ></mq-marker>
+      </mq-marker-cluster-group>
+    </mq-map>
+  </div>
+</div>
