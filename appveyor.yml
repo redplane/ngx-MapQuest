@@ -1,7 +1,7 @@
 version: 1.0.{build}
 
 environment:
-  nodejs_version: "12.14.1"
+  nodejs_version: '12.14.1'
 
   NETLIFY_SITE_ID:
     secure: /ocv/IlItxE1iIiSzbF5Z3Fr751wFCm5H8sBUaHPcAVDmwksYxeYwtCASuWnPQoh

@@ -3,9 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-map-quest-demo": {
-      "root": "projects/ngx-map-quest-demo/",
-      "sourceRoot": "projects/ngx-map-quest-demo/src",
+    "core-ui": {
+      "root": "apps/core-ui/",
+      "sourceRoot": "apps/core-ui/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
@@ -13,19 +13,17 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "preserveSymlinks": true,
-            "outputPath": "dist/ngx-map-quest-demo",
-            "index": "projects/ngx-map-quest-demo/src/index.html",
-            "main": "projects/ngx-map-quest-demo/src/main.ts",
-            "polyfills": "projects/ngx-map-quest-demo/src/polyfills.ts",
-            "tsConfig": "projects/ngx-map-quest-demo/tsconfig.app.json",
+            "outputPath": "dist/core-ui",
+            "index": "apps/core-ui/src/index.html",
+            "main": "apps/core-ui/src/main.ts",
+            "polyfills": "apps/core-ui/src/polyfills.ts",
+            "tsConfig": "apps/core-ui/tsconfig.app.json",
             "assets": [
-              "projects/ngx-map-quest-demo/src/favicon.ico",
-              "projects/ngx-map-quest-demo/src/assets",
-              "projects/ngx-map-quest-demo/src/netlify.toml"
+              "apps/core-ui/src/favicon.ico",
+              "apps/core-ui/src/assets",
+              "apps/core-ui/src/netlify.toml"
             ],
-            "styles": [
-              "projects/ngx-map-quest-demo/src/styles/styles.scss"
-            ],
+            "styles": ["apps/core-ui/src/styles/styles.scss"],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
               "./node_modules/popper.js/dist/popper.js",
@@ -44,8 +42,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-map-quest-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-map-quest-demo/src/environments/environment.prod.ts"
+                  "replace": "apps/core-ui/src/environments/environment.ts",
+                  "with": "apps/core-ui/src/environments/environment.production.ts"
                 }
               ],
               "optimization": true,
@@ -64,51 +62,49 @@
                 }
               ]
             },
-            "dev": {
+            "development": {
               "fileReplacements": [
                 {
-                  "replace": "projects/ngx-map-quest-demo/src/environments/environment.ts",
-                  "with": "projects/ngx-map-quest-demo/src/environments/environment.dev.ts"
+                  "replace": "apps/core-ui/src/environments/environment.ts",
+                  "with": "apps/core-ui/src/environments/environment.development.ts"
                 }
               ]
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-map-quest-demo:build"
+            "browserTarget": "core-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-map-quest-demo:build:production"
+              "browserTarget": "core-ui:build:production"
             },
             "dev": {
-              "browserTarget": "ngx-map-quest-demo:build:dev"
+              "browserTarget": "core-ui:build:dev"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-map-quest-demo:build"
+            "browserTarget": "core-ui:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-map-quest-demo/src/test.ts",
-            "polyfills": "projects/ngx-map-quest-demo/src/polyfills.ts",
-            "tsConfig": "projects/ngx-map-quest-demo/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-map-quest-demo/karma.conf.js",
-            "styles": [
-              "projects/ngx-map-quest-demo/src/styles/styles.scss"
-            ],
+            "main": "apps/core-ui/src/test.ts",
+            "polyfills": "apps/core-ui/src/polyfills.ts",
+            "tsConfig": "apps/core-ui/tsconfig.spec.json",
+            "karmaConfig": "apps/core-ui/karma.conf.js",
+            "styles": ["apps/core-ui/src/styles/styles.scss"],
             "scripts": [],
             "assets": [
-              "projects/ngx-map-quest-demo/src/favicon.ico",
-              "projects/ngx-map-quest-demo/src/assets"
+              "apps/core-ui/src/favicon.ico",
+              "apps/core-ui/src/assets"
             ]
           }
         },
@@ -116,84 +112,77 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-map-quest-demo/tsconfig.app.json",
-              "projects/ngx-map-quest-demo/tsconfig.spec.json"
+              "apps/core-ui/tsconfig.app.json",
+              "apps/core-ui/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
-    "ngx-map-quest-demo-e2e": {
-      "root": "projects/ngx-map-quest-demo-e2e/",
+    "core-ui-e2e": {
+      "root": "projects/core-ui-e2e/",
       "projectType": "application",
       "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/ngx-map-quest-demo-e2e/protractor.conf.js",
-            "devServerTarget": "ngx-map-quest-demo:serve"
+            "protractorConfig": "projects/core-ui-e2e/protractor.conf.js",
+            "devServerTarget": "core-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngx-map-quest-demo:serve:production"
+              "devServerTarget": "core-ui:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "projects/ngx-map-quest-demo-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": "projects/core-ui-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     },
     "ngx-map-quest": {
       "projectType": "library",
-      "root": "projects/ngx-map-quest",
-      "sourceRoot": "projects/ngx-map-quest/src",
+      "root": "libs/core",
+      "sourceRoot": "libs/core/src",
       "architect": {
         "build": {
-          "outputPath": "dist/ngx-map-quest",
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/ngx-map-quest/tsconfig.lib.json",
-            "project": "projects/ngx-map-quest/ng-package.json",
+            "tsConfig": "libs/core/tsconfig.lib.json",
+            "project": "libs/core/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-map-quest/tsconfig.lib.prod.json"
+              "tsConfig": "libs/core/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ngx-map-quest/src/test.ts",
-            "tsConfig": "projects/ngx-map-quest/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-map-quest/karma.conf.js"
+            "main": "libs/core/src/test.ts",
+            "tsConfig": "libs/core/tsconfig.spec.json",
+            "karmaConfig": "libs/core/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/ngx-map-quest/tsconfig.lib.json",
-              "projects/ngx-map-quest/tsconfig.spec.json"
+              "libs/core/tsconfig.lib.json",
+              "libs/core/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     }
   },
-  "defaultProject": "ngx-map-quest-demo"
+  "defaultProject": "core-ui"
 }

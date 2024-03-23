@@ -1,0 +1,9 @@
+# Run prettier
+npx lint-staged
+
+# Build the demo application
+npm run build
+
+# Build the library
+npx ng build ngx-map-quest --configuration=production
+
